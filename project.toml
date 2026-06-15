@@ -1,0 +1,6 @@
+[_]
+schema-version = "0.2"
+
+[build]
+  [[build.buildpacks]]
+    id = "paketo-buildpacks/nginx"
