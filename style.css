@@ -1,0 +1,196 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --text:    #111111;
+  --muted:   #6b7280;
+  --accent:  #2563eb;
+  --border:  #e5e7eb;
+  --card-bg: #f9fafb;
+  --max-w:   720px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+  background: #ffffff;
+}
+
+/* ── Nav ── */
+nav {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 56px;
+  z-index: 100;
+}
+
+.nav-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.9rem;
+  transition: color 0.15s;
+}
+
+nav a:hover {
+  color: var(--text);
+}
+
+/* ── Layout ── */
+main {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+section {
+  padding: 5rem 0;
+}
+
+section + section {
+  border-top: 1px solid var(--border);
+}
+
+h2 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+/* ── Hero ── */
+#hero {
+  padding-top: 6rem;
+  padding-bottom: 5rem;
+}
+
+#hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 480px;
+}
+
+/* ── About ── */
+.about-body p {
+  color: #374151;
+  max-width: 60ch;
+}
+
+.about-body p + p {
+  margin-top: 1rem;
+}
+
+/* ── Projects ── */
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 560px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.project-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.project-header h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.badge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+}
+
+.project-card p {
+  font-size: 0.9rem;
+  color: #4b5563;
+  flex: 1;
+}
+
+.project-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  align-self: flex-start;
+}
+
+.project-link:hover {
+  text-decoration: underline;
+}
+
+.project-link.muted {
+  color: var(--muted);
+  cursor: default;
+}
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
