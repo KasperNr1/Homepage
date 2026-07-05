@@ -1,5 +1,5 @@
 FROM nginx:alpine
-COPY index.html contact.html impressum.html datenschutz.html style.css /usr/share/nginx/html/
+COPY index.html contact.html impressum.html datenschutz.html style.css theme.js /usr/share/nginx/html/
 COPY gonzales /usr/share/nginx/html/gonzales
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 
