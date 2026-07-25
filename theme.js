@@ -12,15 +12,16 @@
   }
 
   function applyTheme(preference) {
-    if (preference === "light" || preference === "dark") {
-      root.setAttribute("data-theme", preference);
-      root.style.colorScheme = preference;
-      return;
-    }
-
-    root.removeAttribute("data-theme");
-    root.style.colorScheme = media.matches ? "dark" : "light";
+  var activeTheme = preference;
+  
+  if (preference === "system") {
+    activeTheme = media.matches ? "dark" : "light";
   }
+
+  root.setAttribute("data-theme", activeTheme);
+  root.style.colorScheme = activeTheme;
+}
+
 
   function updateMenuState(menu, preference) {
     var buttons = menu.querySelectorAll("button[data-theme-value]");

@@ -49,28 +49,6 @@ html:not([data-theme]) {
   color-scheme: light dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme]) {
-    --bg: #0b1220;
-    --text: #e5e7eb;
-    --text-body: #d1d5db;
-    --text-soft: #9ca3af;
-    --muted: #9ca3af;
-    --accent: #60a5fa;
-    --accent-strong: #93c5fd;
-    --border: #1f2937;
-    --card-bg: #111827;
-    --nav-bg: rgba(11, 18, 32, 0.92);
-    --badge-bg: #172554;
-    --badge-border: #1d4ed8;
-    --email-card-bg: #0f172a;
-    --email-card-border: #1e3a8a;
-    --email-card-hover: #2563eb;
-    --email-icon-bg: #1e3a8a;
-    --email-icon-text: #bfdbfe;
-  }
-}
-
 html {
   scroll-behavior: smooth;
 }
