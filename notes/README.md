@@ -8,11 +8,15 @@ The notes at `/notes/` are generated from the public
 `volcano.ref` contains the exact Volcano commit published by the next deployment. This makes every
 deployment reproducible and keeps the live notes stable while the vault is being edited.
 
-To move the snapshot to the latest commit on Volcano's `main` branch, run:
+To move the snapshot to the latest commit on Volcano's `main` branch, run the same command on
+Windows, macOS, or Linux:
 
-```powershell
-.\scripts\refresh-notes.ps1
+```sh
+node scripts/refresh-notes.mjs
 ```
+
+This requires Node.js and Git. The existing `scripts/refresh-notes.ps1` remains available as a
+Windows convenience wrapper and calls the same Node implementation.
 
 Review and commit the changed `notes/volcano.ref`, then redeploy the homepage. Docker will fetch that
 commit, build the vault, and copy only Quartz's static output into the Nginx runtime image.
