@@ -156,6 +156,7 @@ export async function buildNotes(options = {}) {
   const quartzDirectory = path.join(workDirectory, "quartz")
   const vaultDirectory = path.join(workDirectory, "volcano")
   const temporaryDirectory = path.join(workDirectory, "packages")
+  const quartzCliPath = path.join(quartzDirectory, "quartz", "bootstrap-cli.mjs")
   const quartzRefPath = path.join(projectRoot, "notes", "quartz.ref")
   const volcanoRefPath = path.join(projectRoot, "notes", "volcano.ref")
   const configPath = path.join(projectRoot, "notes", "quartz.config.yaml")
@@ -186,12 +187,12 @@ export async function buildNotes(options = {}) {
   await cp(indexPath, path.join(quartzDirectory, "content", "index.md"))
 
   run("npm", ["ci", "--no-audit", "--no-fund"], { cwd: quartzDirectory })
-  run("npm", ["exec", "--", "quartz", "plugin", "install", "--from-config"], {
+  run(process.execPath, [quartzCliPath, "plugin", "install", "--from-config"], {
     cwd: quartzDirectory,
   })
   await prepareVendorPackages(quartzDirectory, temporaryDirectory)
   run(process.execPath, [patchPath], { cwd: quartzDirectory })
-  run("npm", ["exec", "--", "quartz", "build"], { cwd: quartzDirectory })
+  run(process.execPath, [quartzCliPath, "build"], { cwd: quartzDirectory })
 
   await rm(outputDirectory, { recursive: true, force: true })
   await cp(path.join(quartzDirectory, "public"), outputDirectory, { recursive: true })
