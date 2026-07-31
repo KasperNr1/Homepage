@@ -8,14 +8,7 @@
 </head>
 <body>
 
-  <nav>
-    <span class="nav-name"><a href="index.html">Matti Magnus Bos</a></span>
-    <ul>
-      <li><a href="#about">Über mich</a></li>
-      <li><a href="#projects">Projekte</a></li>
-      <li><a href="contact.html">Kontakt</a></li>
-    </ul>
-  </nav>
+  <html-include src="/components/navigation.html"></html-include>
 
   <main>
 
@@ -76,14 +69,8 @@
 
   </main>
 
-  <footer>
-    <p>&copy; 2026 Matti Magnus Bos</p>
-    <p class="legal-links">
-      <a href="impressum.html">Impressum</a>
-      <span aria-hidden="true">|</span>
-      <a href="datenschutz.html">Datenschutz</a>
-    </p>
-  </footer>
+  <html-include src="/components/footer.html"></html-include>
+  <script src="components.js" defer></script>
   <script src="theme.js?v=20260705-1" defer></script>
 
 </body>

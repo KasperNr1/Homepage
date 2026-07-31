@@ -8,13 +8,7 @@
   <link rel="stylesheet" href="../style.css?v=20260705-1" />
 </head>
 <body>
-  <nav>
-    <span class="nav-name">Gonzales</span>
-    <ul>
-      <li><a href="/gonzales/privacy">Datenschutz</a></li>
-      <li><a href="mailto:impressum@magnusbos.com">Kontakt</a></li>
-    </ul>
-  </nav>
+  <html-include src="/components/gonzales-navigation.html"></html-include>
 
   <main>
     <section id="hero">
@@ -30,18 +24,14 @@
           Zeigerspruenge zwischen Bildschirmen, damit du beim Arbeiten im Flow bleibst.
         </p>
         <p>
-          Datenschutzerklaerung: <a href="/gonzales/privacy">Gonzales-Datenschutz ansehen</a>
+          Datenschutzerklaerung: <a href="/gonzales/privacy.html">Gonzales-Datenschutz ansehen</a>
         </p>
       </div>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2026 Matti Magnus Bos</p>
-    <p class="legal-links">
-      <a href="/gonzales/privacy">Datenschutz</a>
-    </p>
-  </footer>
+  <html-include src="/components/gonzales-footer.html"></html-include>
+  <script src="../components.js" defer></script>
   <script src="../theme.js?v=20260705-1" defer></script>
 </body>
 </html>

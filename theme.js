@@ -117,7 +117,11 @@
     }
   });
 
-  if (document.readyState === "loading") {
+  if (document.querySelector("html-include")) {
+    document.addEventListener("site-includes-ready", function () {
+      buildThemeSelector(preference);
+    }, { once: true });
+  } else if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       buildThemeSelector(preference);
     });
