@@ -1,0 +1,9 @@
+.git
+.cache
+.site
+.vscode
+.idea
+.DS_Store
+*.swp
+*.swo
+.mcp.json

@@ -106,6 +106,24 @@ nav a:hover {
   color: var(--text);
 }
 
+.nav-measurement {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.nav-measurement > .nav-links {
+  width: max-content;
+}
+
+.site-navigation.nav-is-collapsed .nav-measurement .theme-switcher {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
 .nav-toggle {
   flex: 0 0 auto;
   width: 36px;

@@ -12,11 +12,22 @@ To move the snapshot to the latest commit on Volcano's `main` branch, run the sa
 Windows, macOS, or Linux:
 
 ```sh
-node scripts/refresh-notes.mjs
+npm run notes:update
 ```
 
 This requires Node.js and Git. The existing `scripts/refresh-notes.ps1` remains available as a
 Windows convenience wrapper and calls the same Node implementation.
+
+Refreshing only changes the pinned commit; it does not generate a website inside this source folder.
+Build and open the complete single-origin site with:
+
+```sh
+npm run preview
+```
+
+The preview is available at `http://127.0.0.1:8765/notes/`. Do not serve the repository root with a
+generic static file server, because it will expose this configuration directory instead of Quartz's
+generated output.
 
 Review and commit the changed `notes/volcano.ref`, then redeploy the homepage. Docker will fetch that
 commit, build the vault, and copy only Quartz's static output into the Nginx runtime image.

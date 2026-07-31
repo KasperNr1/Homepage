@@ -17,6 +17,22 @@
     nav.setAttribute("data-navigation-ready", "true");
     var measurementFrame;
 
+    function measureLinksWidth() {
+      var measurement = document.createElement("div");
+      var linksClone = links.cloneNode(true);
+
+      measurement.className = "nav-measurement";
+      measurement.setAttribute("aria-hidden", "true");
+      linksClone.removeAttribute("id");
+      linksClone.hidden = false;
+      measurement.appendChild(linksClone);
+      nav.appendChild(measurement);
+
+      var width = linksClone.getBoundingClientRect().width;
+      measurement.remove();
+      return width;
+    }
+
     function setMenuOpen(isOpen) {
       if (!nav.classList.contains("nav-is-collapsed")) {
         isOpen = false;
@@ -29,26 +45,31 @@
     }
 
     function updateLayout() {
-      window.cancelAnimationFrame(measurementFrame);
-      measurementFrame = window.requestAnimationFrame(function () {
-        nav.classList.remove("nav-is-collapsed", "nav-menu-open");
-        links.hidden = false;
-        toggle.hidden = true;
+      if (measurementFrame) {
+        return;
+      }
 
+      measurementFrame = window.requestAnimationFrame(function () {
+        measurementFrame = null;
         var navStyle = window.getComputedStyle(nav);
         var availableWidth = nav.clientWidth
           - parseFloat(navStyle.paddingLeft)
           - parseFloat(navStyle.paddingRight);
         var requiredWidth = brand.getBoundingClientRect().width
-          + links.getBoundingClientRect().width
+          + measureLinksWidth()
           + parseFloat(navStyle.columnGap || navStyle.gap || 0);
         var shouldCollapse = requiredWidth > availableWidth;
+        var isCollapsed = nav.classList.contains("nav-is-collapsed");
 
-        nav.classList.toggle("nav-is-collapsed", shouldCollapse);
+        if (shouldCollapse !== isCollapsed) {
+          nav.classList.toggle("nav-is-collapsed", shouldCollapse);
+          setMenuOpen(false);
+        }
+
         toggle.hidden = !shouldCollapse;
-        links.hidden = shouldCollapse;
-        toggle.setAttribute("aria-expanded", "false");
-        toggle.setAttribute("aria-label", "Navigation öffnen");
+        if (!shouldCollapse) {
+          links.hidden = false;
+        }
       });
     }
 
