@@ -151,7 +151,8 @@ function streamFile(request, response, file) {
   }
 }
 
-const host = readOption("--host", "127.0.0.1")
+const host = readOption("--host", "")
+const displayHost = host || "localhost"
 const port = Number.parseInt(readOption("--port", "8765"), 10)
 if (!Number.isInteger(port) || port < 1 || port > 65535) {
   throw new Error(`Invalid port: ${port}`)
@@ -169,7 +170,7 @@ const server = http.createServer(async (request, response) => {
     return
   }
 
-  const requestUrl = new URL(request.url ?? "/", `http://${request.headers.host ?? host}`)
+  const requestUrl = new URL(request.url ?? "/", `http://${request.headers.host ?? displayHost}`)
   const file = await resolveRequest(siteRoot, requestUrl.pathname)
   if (!file) {
     sendText(response, 404, "Not found")
@@ -187,10 +188,16 @@ server.on("error", (error) => {
   throw error
 })
 
-server.listen(port, host, () => {
-  console.log(`Unified preview: http://${host}:${port}/`)
-  console.log(`Notes:           http://${host}:${port}/notes/`)
-})
+function onListening() {
+  console.log(`Unified preview: http://${displayHost}:${port}/`)
+  console.log(`Notes:           http://${displayHost}:${port}/notes/`)
+}
+
+if (host) {
+  server.listen(port, host, onListening)
+} else {
+  server.listen(port, onListening)
+}
 
 for (const signal of ["SIGINT", "SIGTERM"]) {
   process.on(signal, () => server.close(() => process.exit(0)))

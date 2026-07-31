@@ -25,7 +25,7 @@ Build and open the complete single-origin site with:
 npm run preview
 ```
 
-The preview is available at `http://127.0.0.1:8765/notes/`. Do not serve the repository root with a
+The preview is available at `http://localhost:8765/notes/`. Do not serve the repository root with a
 generic static file server, because it will expose this configuration directory instead of Quartz's
 generated output.
 
@@ -47,6 +47,10 @@ the expected source locations. The Docker build packages these versions and serv
 
 This keeps the notes compatible with the homepage privacy policy: analytics are disabled and page views
 do not load resources from third-party origins.
+
+Quartz SPA routing is intentionally disabled. The notes and homepage use different document shells, so
+the `Homepage` footer link must perform a complete page load for the homepage components and scripts to
+initialize correctly in Safari, Edge, and other browsers.
 
 ## Automatic updates
 

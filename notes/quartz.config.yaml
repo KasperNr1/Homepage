@@ -2,7 +2,7 @@
 configuration:
   pageTitle: Volcano
   pageTitleSuffix: " | Matti Magnus Bos"
-  enableSPA: true
+  enableSPA: false
   enablePopovers: true
   analytics: null
   locale: de-DE

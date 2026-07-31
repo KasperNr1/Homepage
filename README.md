@@ -21,8 +21,8 @@ npm run preview
 This builds the homepage and the pinned Vault snapshot into `.site/`, then serves everything from one
 origin:
 
-- Homepage: <http://127.0.0.1:8765/>
-- Notes: <http://127.0.0.1:8765/notes/>
+- Homepage: <http://localhost:8765/>
+- Notes: <http://localhost:8765/notes/>
 
 The first run downloads Quartz and the Vault. Later runs reuse `.cache/` until a ref or notes build
 configuration changes. Use `npm run preview -- --force` to force a clean notes rebuild.
@@ -32,6 +32,10 @@ project. Those tools expose `notes/` as configuration files and cannot resolve Q
 URLs.
 
 Press `Ctrl+C` to stop the preview.
+
+The server listens on the system's available local interfaces, so `localhost` works consistently in
+Safari, Edge, and the VS Code browser. Keep the terminal running while using the site. If port 8765 is
+already occupied, stop the old preview before starting a new one.
 
 ## Updating the Vault snapshot
 
