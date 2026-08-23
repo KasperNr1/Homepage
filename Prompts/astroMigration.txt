@@ -1,0 +1,70 @@
+You are an expert Web Developer specializing in Astro, React, and DevOps. We are migrating a legacy plain HTML/CSS personal website into a modern, maintainable Astro project using the Islands Architecture. 
+
+Our core goals are to eliminate code duplication, create a robust type-safe content system, set up React specifically for interactive components, and ensure the entire project is production-ready and Dockerized.
+
+Please execute the following migration plan step-by-step. Stop and ask for my confirmation after completing each major phase before moving on to the next.
+
+### Phase 1: Project Initialization & Layouts
+1. Initialize a new Astro project and install the `@astrojs/react` integration.
+2. Analyze the current plain HTML files and identify duplicate code (e.g., `<head>`, `<nav>`, `<footer>`).
+3. Create a reusable `BaseLayout.astro` in `src/layouts/`. It must include:
+   - Proper SEO metadata props (title, description).
+   - The shared navigation and footer.
+   - A `<slot />` for page content.
+4. Move our global CSS files into `src/styles/` and import them into `BaseLayout.astro`.
+
+### Phase 2: Content Collections (The Data Layer)
+We have multiple markdown-driven content types (Portfolio Projects, App Privacy Policies, and Documentation). We must use Astro Content Collections to ensure type safety.
+1. Create `src/content.config.ts` using Astro's `defineCollection` and Zod schemas (`z.object()`).
+2. Define the following schemas:
+   - `projects`: title, description, date, techStack (array of strings), coverImage (optional).
+   - `policies`: title, lastUpdated (date).
+3. Migrate the existing privacy policies and project text into Markdown files under `src/content/projects/` and `src/content/policies/`.
+4. Create dynamic routes in `src/pages/projects/[slug].astro` and `src/pages/policies/[slug].astro` using `getCollection()` and `render()` to display the content.
+
+### Phase 3: Static Pages & React Islands
+1. Convert the remaining static HTML pages (like `index.html`, `about.html`, `cv.html`) into `.astro` pages in `src/pages/`, wrapping them in `<BaseLayout>`.
+2. Embed the React search component into the appropriate `.astro` page using the `client:load` or `client:idle` directive so it hydrates properly on the client. 
+
+### Phase 4: Quartz / Obsidian Integration Setup
+For my University Notes (built with Quartz):
+1. Configure a script or pipeline in `package.json` to generate the Quartz build.
+2. Output the Quartz build directly into Astro's `public/notes/` directory, so that Astro simply serves it statically under the `/notes` path without trying to bundle it.
+
+### Phase 5: SEO, Metadata & Polish
+1. Generate a standard `robots.txt` file in the `public/` directory.
+2. Ensure placeholder favicons (`favicon.ico` and `favicon.svg`) are placed in the `public/` directory and properly linked in `BaseLayout.astro`.
+3. Install and configure the `@astrojs/sitemap` integration to automatically generate a `sitemap.xml` for search engines.
+4. Add basic Open Graph (OG) tags to the `<head>` in `BaseLayout.astro` for better social sharing previews.
+
+### Phase 6: Dockerization
+1. Create a multi-stage `Dockerfile` in the root directory.
+   - Stage 1 (Build): Use a Node.js image to install dependencies, run the Quartz build, and run the Astro build (`npm run build`).
+   - Stage 2 (Serve): Use a lightweight Nginx Alpine image. Copy the build output from Stage 1 into Nginx's public html directory.
+2. Create a basic `nginx.conf` to handle routing (especially ensuring custom 404 pages route correctly in Astro).
+3. Create a `docker-compose.yml` file to easily spin up the container locally on port 8080.
+
+### Phase 7: Testing Setup (Unit & Visual Regression)
+1. Set up Vitest with `@testing-library/react` for unit testing utility functions and React components.
+2. Install and configure `@playwright/test` for End-to-End (E2E) and Visual Regression Testing:
+   - Configure `playwright.config.ts` to automatically spin up the Astro preview server (`npm run preview`) before tests run.
+   - Define viewports for both Desktop (1280x720) and Mobile (375x667).
+3. Create an E2E visual test suite (`tests/visual.spec.ts`) that navigates to:
+   - Homepage (`/`)
+   - CV page (`/cv`)
+   - A project detail page (`/projects/[slug]`)
+   - A policy page (`/policies/[slug]`)
+   - Obsidian notes root (`/notes`)
+4. Use `await expect(page).toHaveScreenshot()` to capture and compare full-page snapshots.
+5. Add npm scripts in `package.json`:
+   - `"test:unit"` -> `vitest run`
+   - `"test:visual"` -> `playwright test`
+   - `"test:visual:update"` -> `playwright test --update-snapshots`
+
+### Rules & Constraints:
+- DO NOT use React for static UI components (like buttons, cards, headers). Use `.astro` components for anything that doesn't require client-side state.
+- Strictly adhere to Astro's Zero-JS by default philosophy. Use React ONLY for interactive islands.
+- Ensure all React components use `.tsx` or `.jsx` file extensions, and Astro files use `.astro`.
+- Use semantic HTML and keep CSS class structures clean. 
+
+Are you ready to begin Phase 1?
