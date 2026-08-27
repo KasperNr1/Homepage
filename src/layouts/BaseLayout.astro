@@ -29,6 +29,17 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url)
     <link rel="canonical" href={canonicalUrl} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={titleSuffix} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={siteConfig.ogLocale} />
+    <meta name="twitter:card" content="summary" />
+
     {/* Applies the stored theme before first paint so the page never flashes the wrong palette. */}
     <script is:inline>
       ;(() => {

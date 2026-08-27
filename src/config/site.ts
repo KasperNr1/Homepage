@@ -18,6 +18,7 @@ export const siteConfig = {
   name: "Matti Magnus Bos",
   owner: "Matti Magnus Bos",
   locale: "de",
+  ogLocale: "de_DE",
   description:
     "Matti Magnus Bos - Softwareentwickler und Dozent. Ich entwickle Tools, die aus eigenen Problemen entstehen und auch anderen helfen könnten.",
   contactEmail: "matti@magnusbos.com",
