@@ -1,19 +1,21 @@
-FROM node:24-alpine AS site-builder
+FROM node:24-alpine AS build
 
+# Quartz clones its own source and the notes vault during the build.
 RUN apk add --no-cache git
 
-WORKDIR /workspace
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
 
 COPY . .
 
-RUN node scripts/build-site.mjs \
-	--output /site-public \
-	--cache /tmp/homepage-cache \
-	--force
+# Builds the pinned Quartz notes into public/notes, then the Astro site into dist.
+RUN npm run build
 
 FROM nginx:alpine AS runtime
 
-COPY --from=site-builder /site-public/ /usr/share/nginx/html/
+COPY --from=build /app/dist/ /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 
 EXPOSE 8080
