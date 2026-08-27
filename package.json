@@ -10,9 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "notes:update": "node scripts/refresh-notes.mjs",
-    "legacy:build": "node scripts/build-site.mjs",
-    "legacy:preview": "node scripts/preview-site.mjs"
+    "notes:update": "node scripts/refresh-notes.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.3",

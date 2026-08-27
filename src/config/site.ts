@@ -20,7 +20,8 @@ export const siteConfig = {
   locale: "de",
   description:
     "Matti Magnus Bos - Softwareentwickler und Dozent. Ich entwickle Tools, die aus eigenen Problemen entstehen und auch anderen helfen könnten.",
-  email: "matti@magnusbos.com",
+  contactEmail: "matti@magnusbos.com",
+  legalEmail: "impressum@magnusbos.com",
 } as const
 
 export const shells = {
@@ -49,7 +50,7 @@ export const shells = {
       "Gonzales ist eine native macOS-App, mit der sich der Mauszeiger sofort zwischen Monitoren bewegen lässt.",
     navigation: [
       { href: "/policies/gonzales", label: "Datenschutz" },
-      { href: "mailto:impressum@magnusbos.com", label: "Kontakt" },
+      { href: `mailto:${siteConfig.legalEmail}`, label: "Kontakt" },
     ],
     footer: [
       { href: "/gonzales", label: "App-Seite" },

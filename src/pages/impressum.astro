@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import { siteConfig } from "../config/site"
+---
+
+<BaseLayout title="Impressum" description={`Impressum und Anbieterkennzeichnung von ${siteConfig.owner}.`}>
+  <section>
+    <h2>Impressum</h2>
+    <div class="about-body">
+      <h3>Angaben gemäß § 5 DDG</h3>
+      <p>
+        {siteConfig.owner}<br />
+        Riedsteige 34<br />
+        72280 Dornstetten<br />
+        Deutschland
+      </p>
+
+      <h3>Kontakt</h3>
+      <p>
+        E-Mail: <a href={`mailto:${siteConfig.legalEmail}`}>{siteConfig.legalEmail}</a>
+      </p>
+
+      <h3>Inhaltlich verantwortlich gemäß § 18 Abs. 2 MStV</h3>
+      <p>
+        {siteConfig.owner}<br />
+        Riedsteige 34<br />
+        72280 Dornstetten
+      </p>
+
+      <h3>EU-Streitbeilegung</h3>
+      <p>
+        Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{" "}
+        <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener"
+          >https://ec.europa.eu/consumers/odr/</a
+        >. Unsere E-Mail-Adresse finden Sie oben im Impressum.
+      </p>
+
+      <h3>Verbraucherstreitbeilegung/Universalschlichtungsstelle</h3>
+      <p>
+        Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+        Verbraucherschlichtungsstelle teilzunehmen.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

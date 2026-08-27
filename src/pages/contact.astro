@@ -1,0 +1,84 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import { siteConfig } from "../config/site"
+
+const profiles = [
+  {
+    title: "GitHub",
+    description: "Code, Open-Source-Projekte und Experimente.",
+    href: "https://github.com/KasperNr1",
+    label: "github.com/KasperNr1",
+  },
+  {
+    title: "LinkedIn",
+    description: "Berufliches Profil, Stationen und Austausch.",
+    href: "https://linkedin.com/in/matti-bos-7636b8218",
+    label: "linkedin.com/in/matti-bos-7636b8218",
+  },
+]
+
+const metadata = [
+  { label: "Antwortzeit", value: "Innerhalb von 24h" },
+  { label: "Sprachen", value: "Deutsch, Englisch" },
+  { label: "Offen für", value: "IT-Kurse, Projekte und Kollaborationen" },
+]
+---
+
+<BaseLayout
+  title="Kontakt"
+  description="Kontaktmöglichkeiten zu Matti Magnus Bos: E-Mail, GitHub und LinkedIn."
+>
+  <section id="contact">
+    <h2>Kontakt</h2>
+    <div class="contact-main-grid">
+      <div class="contact-primary">
+        <p class="contact-intro">
+          Ob Projektidee, Zusammenarbeit oder einfach ein kurzes Hallo: Ich freue mich auf deine
+          Nachricht.
+        </p>
+
+        <a
+          class="email-hero-card"
+          href={`mailto:${siteConfig.contactEmail}`}
+          aria-label={`E-Mail an ${siteConfig.contactEmail} schreiben`}
+        >
+          <span class="email-icon" aria-hidden="true">&#9993;</span>
+          <span class="email-hero-content">
+            <span class="email-label">Per E-Mail</span>
+            <span class="email-address">{siteConfig.contactEmail}</span>
+            <span class="email-cta">Mail-App öffnen</span>
+          </span>
+        </a>
+
+        <div class="profile-grid">
+          {
+            profiles.map((profile) => (
+              <article class="profile-card">
+                <h3>{profile.title}</h3>
+                <p>{profile.description}</p>
+                <a href={profile.href} target="_blank" rel="noopener">
+                  {profile.label}
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+
+      <aside class="metadata-card" aria-label="Kommunikations-Metadaten">
+        <h3>Kommunikation</h3>
+        <ul class="metadata-list">
+          {
+            metadata.map((entry) => (
+              <li>
+                {entry.label}
+                <br />
+                <strong>{entry.value}</strong>
+              </li>
+            ))
+          }
+        </ul>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
