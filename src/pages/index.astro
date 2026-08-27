@@ -1,6 +1,11 @@
 ---
+import { getCollection } from "astro:content"
 import BaseLayout from "../layouts/BaseLayout.astro"
 import { siteConfig } from "../config/site"
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+)
 ---
 
 <BaseLayout title={siteConfig.name}>
@@ -33,38 +38,22 @@ import { siteConfig } from "../config/site"
   <section id="projects">
     <h2>Projekte</h2>
     <div class="project-grid">
-      <article class="project-card">
-        <div class="project-header">
-          <h3>Blablatex</h3>
-          <span class="badge">Python / pip</span>
-        </div>
-        <p>
-          Ein Kommandozeilen-Tool zur Verwaltung von LaTeX-Templates und eigentlich jeder Art von
-          Vorlagen.<br />
-          Aktualisieren, abrufen und anwenden, alles mit einem einzigen Befehl!
-        </p>
-        <a
-          class="project-link"
-          href="https://pypi.org/project/blablatex/"
-          target="_blank"
-          rel="noopener"
-        >
-          Auf PyPI ansehen &rarr;
-        </a>
-      </article>
-
-      <article class="project-card">
-        <div class="project-header">
-          <h3>Gonzales</h3>
-          <span class="badge">macOS-App</span>
-        </div>
-        <p>
-          Eine native macOS-App, mit der sich der Mauszeiger sofort zwischen Monitoren bewegen lässt.
-          Inspiriert durch MouseJump aus PowerToys.<br />
-          Entstanden, weil mir dieses täglich genutzte Tool auf dem Mac gefehlt hat.
-        </p>
-        <span class="project-link muted">Bald im App-Store verfügbar</span>
-      </article>
+      {
+        projects.map((project) => (
+          <article class="project-card">
+            <div class="project-header">
+              <h3>{project.data.title}</h3>
+              {project.data.techStack.map((tech) => (
+                <span class="badge">{tech}</span>
+              ))}
+            </div>
+            <p>{project.data.description}</p>
+            <a class="project-link" href={`/projects/${project.id}`}>
+              Projekt ansehen &rarr;
+            </a>
+          </article>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>

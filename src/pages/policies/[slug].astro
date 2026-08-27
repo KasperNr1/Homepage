@@ -1,0 +1,35 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content"
+import BaseLayout from "../../layouts/BaseLayout.astro"
+
+export async function getStaticPaths() {
+  const policies = await getCollection("policies")
+  return policies.map((policy) => ({
+    params: { slug: policy.id },
+    props: { policy },
+  }))
+}
+
+interface Props {
+  policy: CollectionEntry<"policies">
+}
+
+const { policy } = Astro.props
+const { title, lastUpdated, shell } = policy.data
+const { Content } = await render(policy)
+---
+
+<BaseLayout title={title} shell={shell}>
+  <section>
+    <h2>{title}</h2>
+    <div class="about-body">
+      <p>
+        <strong>Stand:</strong>{" "}
+        <time datetime={lastUpdated.toISOString()}>
+          {lastUpdated.toLocaleDateString("de-DE", { dateStyle: "long" })}
+        </time>
+      </p>
+      <Content />
+    </div>
+  </section>
+</BaseLayout>

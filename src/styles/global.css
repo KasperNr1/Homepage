@@ -291,6 +291,18 @@ h2 {
   margin-top: 1rem;
 }
 
+.about-body h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.about-body > :first-child {
+  margin-top: 0;
+}
+
 /* ── Projects ── */
 .project-grid {
   display: grid;
@@ -327,6 +339,19 @@ h2 {
   letter-spacing: -0.01em;
 }
 
+#hero .project-header {
+  margin-top: 1.25rem;
+}
+
+.project-cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}
+
 .badge {
   font-size: 0.7rem;
   font-weight: 500;
@@ -358,6 +383,11 @@ h2 {
 .project-link.muted {
   color: var(--muted);
   cursor: default;
+}
+
+section > .project-link {
+  display: inline-block;
+  margin-top: 1.5rem;
 }
 
 /* Contact page */
@@ -599,6 +629,10 @@ footer {
 
 .legal-links {
   margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .legal-links a {

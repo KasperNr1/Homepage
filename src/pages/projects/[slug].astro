@@ -1,0 +1,65 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content"
+import { Image } from "astro:assets"
+import BaseLayout from "../../layouts/BaseLayout.astro"
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects")
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }))
+}
+
+interface Props {
+  project: CollectionEntry<"projects">
+}
+
+const { project } = Astro.props
+const { title, description, date, techStack, coverImage, link, status } = project.data
+const { Content } = await render(project)
+const isExternalLink = link?.href.startsWith("http") ?? false
+---
+
+<BaseLayout title={title} description={description}>
+  <section id="hero">
+    <h1>{title}</h1>
+    <p class="tagline">{description}</p>
+    <p class="project-header">
+      {techStack.map((tech) => <span class="badge">{tech}</span>)}
+    </p>
+  </section>
+
+  <section>
+    <h2>Über das Projekt</h2>
+    {coverImage && <Image class="project-cover" src={coverImage} alt={title} loading="eager" />}
+    <div class="about-body">
+      <Content />
+    </div>
+    {
+      link && (
+        <a
+          class="project-link"
+          href={link.href}
+          target={isExternalLink ? "_blank" : undefined}
+          rel={isExternalLink ? "noopener" : undefined}
+        >
+          {link.label} &rarr;
+        </a>
+      )
+    }
+    {!link && status && <span class="project-link muted">{status}</span>}
+  </section>
+
+  <section>
+    <h2>Details</h2>
+    <div class="about-body">
+      <p>
+        Veröffentlicht am <time datetime={date.toISOString()}>
+          {date.toLocaleDateString("de-DE", { dateStyle: "long" })}
+        </time>
+      </p>
+      <p><a href="/#projects">&larr; Alle Projekte</a></p>
+    </div>
+  </section>
+</BaseLayout>

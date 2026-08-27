@@ -10,10 +10,11 @@ interface Props {
   shell?: ShellName
 }
 
-const { title, description = siteConfig.description, shell = "site" } = Astro.props
+const { title, description, shell = "site" } = Astro.props
 const { titleSuffix, brand, brandHref, navigation, footer, noindex } = shells[shell]
 
 const pageTitle = title === titleSuffix ? title : `${title} | ${titleSuffix}`
+const pageDescription = description ?? shells[shell].description
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url)
 ---
 
@@ -24,7 +25,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url)
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={pageDescription} />
     <link rel="canonical" href={canonicalUrl} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 

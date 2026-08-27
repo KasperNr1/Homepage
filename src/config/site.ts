@@ -8,6 +8,7 @@ export interface Shell {
   titleSuffix: string
   brand: string
   brandHref: string
+  description: string
   navigation: NavigationLink[]
   footer: NavigationLink[]
   noindex: boolean
@@ -27,6 +28,7 @@ export const shells = {
     titleSuffix: siteConfig.name,
     brand: siteConfig.name,
     brandHref: "/",
+    description: siteConfig.description,
     navigation: [
       { href: "/#about", label: "Über mich" },
       { href: "/#projects", label: "Projekte" },
@@ -35,7 +37,7 @@ export const shells = {
     ],
     footer: [
       { href: "/impressum", label: "Impressum" },
-      { href: "/datenschutz", label: "Datenschutz" },
+      { href: "/policies/datenschutz", label: "Datenschutz" },
     ],
     noindex: false,
   },
@@ -43,13 +45,15 @@ export const shells = {
     titleSuffix: "Gonzales",
     brand: "Gonzales",
     brandHref: "/gonzales",
+    description:
+      "Gonzales ist eine native macOS-App, mit der sich der Mauszeiger sofort zwischen Monitoren bewegen lässt.",
     navigation: [
-      { href: "/gonzales/privacy", label: "Datenschutz" },
-      { href: `mailto:impressum@magnusbos.com`, label: "Kontakt" },
+      { href: "/policies/gonzales", label: "Datenschutz" },
+      { href: "mailto:impressum@magnusbos.com", label: "Kontakt" },
     ],
     footer: [
       { href: "/gonzales", label: "App-Seite" },
-      { href: "/gonzales/privacy", label: "Datenschutz" },
+      { href: "/policies/gonzales", label: "Datenschutz" },
     ],
     noindex: true,
   },
