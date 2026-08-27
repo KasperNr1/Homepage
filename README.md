@@ -57,6 +57,22 @@ commit the changed ref together with any homepage changes.
 `notes/quartz.ref` pins the Quartz source separately. Only advance it together with a full local
 build check, because Quartz updates can change configuration and rendering behaviour.
 
+## Testing
+
+```sh
+npm run test:unit           # Vitest
+npm run test:visual         # Playwright visual regression
+npm run test:visual:update  # accept new snapshots
+```
+
+Vitest covers plain modules and React islands (`tests/unit/`, `*.test.ts`). Playwright drives a real
+browser against `npm run preview`, so run `npm run build` first. It captures full-page snapshots at
+1280x720 and 375x667 (`tests/visual.spec.ts`, `*.spec.ts`).
+
+Snapshots are per platform: Playwright writes `*-win32.png` on Windows and `*-darwin.png` on macOS.
+Generate the missing set once per machine with `npm run test:visual:update` and commit it. Browsers
+are installed separately with `npx playwright install chromium`.
+
 ## Docker
 
 ```sh

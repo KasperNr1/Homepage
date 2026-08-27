@@ -5,6 +5,12 @@ dist
 .cache
 .site
 public/notes
+tests
+test-results
+playwright-report
+blob-report
+playwright.config.ts
+vitest.config.ts
 .vscode
 .idea
 .DS_Store

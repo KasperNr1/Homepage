@@ -11,7 +11,10 @@
     "preview": "astro preview",
     "astro": "astro",
     "notes:build": "node scripts/build-notes.mjs --output public/notes",
-    "notes:update": "node scripts/refresh-notes.mjs"
+    "notes:update": "node scripts/refresh-notes.mjs",
+    "test:unit": "vitest run",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.3",
@@ -21,7 +24,13 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.5",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4"
+    "@types/react-dom": "^19.2.4",
+    "jsdom": "^30.0.1",
+    "vitest": "^4.1.11"
   }
 }
