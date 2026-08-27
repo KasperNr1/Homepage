@@ -1,0 +1,25 @@
+---
+import { siteConfig } from "../config/site"
+import type { NavigationLink } from "../config/site"
+
+interface Props {
+  links: NavigationLink[]
+}
+
+const { links } = Astro.props
+const year = new Date().getFullYear()
+---
+
+<footer>
+  <p>&copy; {year} {siteConfig.owner}</p>
+  <p class="legal-links">
+    {
+      links.map((link, index) => (
+        <>
+          {index > 0 && <span aria-hidden="true">|</span>}
+          <a href={link.href}>{link.label}</a>
+        </>
+      ))
+    }
+  </p>
+</footer>

@@ -1,0 +1,61 @@
+---
+import SiteNavigation from "../components/SiteNavigation.astro"
+import SiteFooter from "../components/SiteFooter.astro"
+import { shells, siteConfig, type ShellName } from "../config/site"
+import "../styles/global.css"
+
+interface Props {
+  title: string
+  description?: string
+  shell?: ShellName
+}
+
+const { title, description = siteConfig.description, shell = "site" } = Astro.props
+const { titleSuffix, brand, brandHref, navigation, footer, noindex } = shells[shell]
+
+const pageTitle = title === titleSuffix ? title : `${title} | ${titleSuffix}`
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url)
+---
+
+<!doctype html>
+<html lang={siteConfig.locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    {/* Applies the stored theme before first paint so the page never flashes the wrong palette. */}
+    <script is:inline>
+      ;(() => {
+        let preference = "system"
+        try {
+          const stored = localStorage.getItem("theme-preference")
+          if (stored === "light" || stored === "dark" || stored === "system") {
+            preference = stored
+          }
+        } catch {
+          // Storage can be blocked by browser privacy settings.
+        }
+        const theme =
+          preference === "system"
+            ? window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : preference
+        document.documentElement.setAttribute("data-theme", theme)
+        document.documentElement.style.colorScheme = theme
+      })()
+    </script>
+  </head>
+  <body>
+    <SiteNavigation brand={brand} brandHref={brandHref} links={navigation} />
+    <main>
+      <slot />
+    </main>
+    <SiteFooter links={footer} />
+  </body>
+</html>

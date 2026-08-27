@@ -1,0 +1,127 @@
+---
+import ThemeSwitcher from "./ThemeSwitcher.astro"
+import type { NavigationLink } from "../config/site"
+
+interface Props {
+  brand: string
+  brandHref: string
+  links: NavigationLink[]
+}
+
+const { brand, brandHref, links } = Astro.props
+---
+
+<nav class="site-navigation">
+  <span class="nav-name"><a href={brandHref}>{brand}</a></span>
+  <button
+    class="nav-toggle"
+    type="button"
+    aria-controls="site-navigation-links"
+    aria-expanded="false"
+    aria-label="Navigation öffnen"
+    hidden
+  >
+    <span class="nav-toggle-icon" aria-hidden="true"></span>
+  </button>
+  <ul id="site-navigation-links" class="nav-links">
+    {links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+    <ThemeSwitcher />
+  </ul>
+</nav>
+
+<script>
+  const nav = document.querySelector<HTMLElement>(".site-navigation")
+  const brand = nav?.querySelector<HTMLElement>(".nav-name")
+  const toggle = nav?.querySelector<HTMLButtonElement>(".nav-toggle")
+  const links = nav?.querySelector<HTMLUListElement>(".nav-links")
+
+  if (nav && brand && toggle && links) {
+    let measurementFrame: number | null = null
+
+    /** Width the link list needs when it is rendered inline instead of collapsed. */
+    function measureLinksWidth(): number {
+      const measurement = document.createElement("div")
+      const linksClone = links!.cloneNode(true) as HTMLUListElement
+
+      measurement.className = "nav-measurement"
+      measurement.setAttribute("aria-hidden", "true")
+      linksClone.removeAttribute("id")
+      linksClone.hidden = false
+      measurement.appendChild(linksClone)
+      nav!.appendChild(measurement)
+
+      const width = linksClone.getBoundingClientRect().width
+      measurement.remove()
+      return width
+    }
+
+    function setMenuOpen(isOpen: boolean): void {
+      const isCollapsed = nav!.classList.contains("nav-is-collapsed")
+      const open = isCollapsed && isOpen
+
+      links!.hidden = isCollapsed && !open
+      nav!.classList.toggle("nav-menu-open", open)
+      toggle!.setAttribute("aria-expanded", open ? "true" : "false")
+      toggle!.setAttribute("aria-label", open ? "Navigation schließen" : "Navigation öffnen")
+    }
+
+    function updateLayout(): void {
+      if (measurementFrame !== null) {
+        return
+      }
+
+      measurementFrame = window.requestAnimationFrame(() => {
+        measurementFrame = null
+
+        const navStyle = window.getComputedStyle(nav!)
+        const availableWidth =
+          nav!.clientWidth - parseFloat(navStyle.paddingLeft) - parseFloat(navStyle.paddingRight)
+        const requiredWidth =
+          brand!.getBoundingClientRect().width +
+          measureLinksWidth() +
+          parseFloat(navStyle.columnGap || navStyle.gap || "0")
+        const shouldCollapse = requiredWidth > availableWidth
+
+        if (shouldCollapse !== nav!.classList.contains("nav-is-collapsed")) {
+          nav!.classList.toggle("nav-is-collapsed", shouldCollapse)
+          setMenuOpen(false)
+        }
+
+        toggle!.hidden = !shouldCollapse
+        if (!shouldCollapse) {
+          links!.hidden = false
+        }
+      })
+    }
+
+    toggle.addEventListener("click", () => setMenuOpen(links.hidden))
+
+    links.addEventListener("click", (event) => {
+      if (event.target instanceof Element && event.target.closest("a")) {
+        setMenuOpen(false)
+      }
+    })
+
+    document.addEventListener("click", (event) => {
+      if (event.target instanceof Node && !nav.contains(event.target)) {
+        setMenuOpen(false)
+      }
+    })
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && nav.classList.contains("nav-menu-open")) {
+        setMenuOpen(false)
+        toggle.focus()
+      }
+    })
+
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(updateLayout).observe(nav)
+    } else {
+      window.addEventListener("resize", updateLayout)
+    }
+
+    document.fonts?.ready.then(updateLayout)
+    updateLayout()
+  }
+</script>
