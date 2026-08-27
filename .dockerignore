@@ -4,6 +4,7 @@ dist
 .astro
 .cache
 .site
+public/notes
 .vscode
 .idea
 .DS_Store

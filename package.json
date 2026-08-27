@@ -7,9 +7,10 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run notes:build && astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "notes:build": "node scripts/build-notes.mjs --output public/notes",
     "notes:update": "node scripts/refresh-notes.mjs"
   },
   "dependencies": {

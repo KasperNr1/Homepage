@@ -162,7 +162,8 @@ export async function buildNotes(options = {}) {
   const configPath = path.join(projectRoot, "notes", "quartz.config.yaml")
   const indexPath = path.join(projectRoot, "notes", "index.md")
   const patchPath = path.join(projectRoot, "notes", "patch-quartz.mjs")
-  const buildKeyPath = path.join(outputDirectory, ".build-key")
+  // Kept outside the output directory so it is never published with the site.
+  const buildKeyPath = path.join(workDirectory, "build-key")
   const quartzRef = await readRef(quartzRefPath)
   const volcanoRef = await readRef(volcanoRefPath)
   const buildKey = await calculateBuildKey(
