@@ -1,7 +1,7 @@
 ---
 title: Blablatex
 description: Ein Kommandozeilen-Tool zur Verwaltung von LaTeX-Templates und eigentlich jeder Art von Vorlagen.
-date: 2026-01-15
+date: 2025-07-27
 techStack:
   - Python
   - pip
