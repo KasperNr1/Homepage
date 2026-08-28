@@ -32,8 +32,9 @@ export const shells = {
     brandHref: "/",
     description: siteConfig.description,
     navigation: [
-      { href: "/#about", label: "Über mich" },
-      { href: "/#projects", label: "Projekte" },
+      { href: "/", label: "Übersicht" },
+      { href: "/about", label: "Über mich" },
+      { href: "/projects", label: "Projekte" },
       { href: "/notes/", label: "Notizen" },
       { href: "/contact", label: "Kontakt" },
     ],

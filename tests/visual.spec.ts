@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test"
 const routes = [
   { name: "home", path: "/" },
   { name: "about", path: "/about" },
+  { name: "projects", path: "/projects" },
   { name: "contact", path: "/contact" },
   { name: "project-detail", path: "/projects/blablatex" },
   { name: "policy-detail", path: "/policies/datenschutz" },
