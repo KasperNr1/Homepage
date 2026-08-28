@@ -27,9 +27,10 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `npm run preview -- --port ${port}`,
+    // Builds first so the suite can never run against a stale dist.
+    command: `npm run build && npm run preview -- --port ${port}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    timeout: 300_000,
   },
 })

@@ -2,10 +2,26 @@ import { build } from "esbuild"
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { shells, siteConfig } from "../src/config/site.ts"
-import { themeBootstrapScript } from "../src/scripts/theme-bootstrap.ts"
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
+
+/** Node only strips types natively from 22.18 on, so transpile instead of importing directly. */
+async function loadTypeScriptModule(relativePath) {
+  const result = await build({
+    entryPoints: [path.join(projectRoot, relativePath)],
+    bundle: true,
+    write: false,
+    format: "esm",
+    platform: "node",
+    target: "node20",
+    logLevel: "warning",
+  })
+  const source = Buffer.from(result.outputFiles[0].text).toString("base64")
+  return import(`data:text/javascript;base64,${source}`)
+}
+
+const { shells, siteConfig } = await loadTypeScriptModule("src/config/site.ts")
+const { themeBootstrapScript } = await loadTypeScriptModule("src/scripts/theme-bootstrap.ts")
 const shell = shells.site
 
 function escapeHtml(value) {
