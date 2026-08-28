@@ -47,7 +47,7 @@ export const shells = {
   gonzales: {
     titleSuffix: "Gonzales",
     brand: "Gonzales",
-    brandHref: "/gonzales",
+    brandHref: "/projects/gonzales",
     description:
       "Gonzales ist eine native macOS-App, mit der sich der Mauszeiger sofort zwischen Monitoren bewegen lässt.",
     navigation: [
@@ -55,7 +55,7 @@ export const shells = {
       { href: `mailto:${siteConfig.legalEmail}`, label: "Kontakt" },
     ],
     footer: [
-      { href: "/gonzales", label: "App-Seite" },
+      { href: "/projects/gonzales", label: "Projektseite" },
       { href: "/policies/gonzales", label: "Datenschutz" },
     ],
     noindex: true,

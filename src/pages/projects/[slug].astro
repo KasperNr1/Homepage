@@ -16,9 +16,9 @@ interface Props {
 }
 
 const { project } = Astro.props
-const { title, description, date, techStack, coverImage, link, status } = project.data
+const { title, description, date, techStack, coverImage, download, status } = project.data
 const { Content } = await render(project)
-const isExternalLink = link?.href.startsWith("http") ?? false
+const isExternalLink = download?.href.startsWith("http") ?? false
 ---
 
 <BaseLayout title={title} description={description}>
@@ -37,18 +37,18 @@ const isExternalLink = link?.href.startsWith("http") ?? false
       <Content />
     </div>
     {
-      link && (
+      download && (
         <a
           class="project-link"
-          href={link.href}
+          href={download.href}
           target={isExternalLink ? "_blank" : undefined}
           rel={isExternalLink ? "noopener" : undefined}
         >
-          {link.label} &rarr;
+          {download.label} &rarr;
         </a>
       )
     }
-    {!link && status && <span class="project-link muted">{status}</span>}
+    {!download && status && <span class="project-link muted">{status}</span>}
   </section>
 
   <section>

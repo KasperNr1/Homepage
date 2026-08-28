@@ -18,6 +18,7 @@ export default defineConfig({
   // The legacy privacy URLs are published externally (App Store review, legal notices).
   redirects: {
     "/datenschutz": "/policies/datenschutz",
+    "/gonzales": "/projects/gonzales",
     "/gonzales/privacy": "/policies/gonzales",
   },
 })

@@ -5,7 +5,7 @@ date: 2025-07-27
 techStack:
   - Python
   - pip
-link:
+download:
   href: https://pypi.org/project/blablatex/
   label: Auf PyPI ansehen
 ---

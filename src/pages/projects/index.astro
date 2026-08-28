@@ -24,7 +24,7 @@ const projects = (await getCollection("projects")).sort(
     <div class="portfolio">
       {
         projects.map((project) => {
-          const isExternal = project.data.link?.href.startsWith("http") ?? false
+          const isExternal = project.data.download?.href.startsWith("http") ?? false
 
           return (
             <article class="portfolio-entry">
@@ -60,17 +60,17 @@ const projects = (await getCollection("projects")).sort(
                 <a class="project-link" href={`/projects/${project.id}`}>
                   Dokumentation ansehen &rarr;
                 </a>
-                {project.data.link && (
+                {project.data.download && (
                   <a
                     class="project-link"
-                    href={project.data.link.href}
+                    href={project.data.download.href}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener" : undefined}
                   >
-                    {project.data.link.label} &rarr;
+                    {project.data.download.label} &rarr;
                   </a>
                 )}
-                {project.data.status && (
+                {!project.data.download && project.data.status && (
                   <span class="project-link muted">{project.data.status}</span>
                 )}
               </p>
