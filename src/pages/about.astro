@@ -15,7 +15,7 @@ import {
   type TimelineEntry,
 } from "../config/cv"
 import { siteConfig } from "../config/site"
-import portrait from "../assets/portrait-placeholder.png"
+import portrait from "../assets/Portrait.jpeg"
 
 const projectEntries: TimelineEntry[] = (await getCollection("projects"))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())

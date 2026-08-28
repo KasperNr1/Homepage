@@ -3,7 +3,7 @@ import { getCollection } from "astro:content"
 import { Image } from "astro:assets"
 import BaseLayout from "../layouts/BaseLayout.astro"
 import { siteConfig } from "../config/site"
-import portrait from "../assets/portrait-placeholder.png"
+import portrait from "../assets/Portrait.jpeg"
 
 const projects = (await getCollection("projects")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
