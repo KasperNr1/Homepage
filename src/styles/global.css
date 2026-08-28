@@ -199,6 +199,81 @@ section > .project-link {
   margin-top: 1.5rem;
 }
 
+/* ── Timeline ── */
+.timeline {
+  list-style: none;
+  display: grid;
+  gap: 2rem;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--border);
+}
+
+.timeline-entry {
+  position: relative;
+}
+
+/* Sits on the connecting line, with a ring in the page colour so the line appears to break. */
+.timeline-entry::before {
+  content: "";
+  position: absolute;
+  left: calc(-1.5rem - 5px);
+  top: 0.4rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--bg);
+}
+
+.timeline-period {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.timeline-title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 0.3rem;
+}
+
+.timeline-meta {
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  margin-top: 0.15rem;
+}
+
+.timeline-description {
+  font-size: 0.92rem;
+  color: var(--text-body);
+  max-width: 60ch;
+  margin-top: 0.5rem;
+}
+
+/* ── Skills ── */
+.skill-groups {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.skill-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.skill-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 /* Contact page */
 .contact-intro {
   color: var(--text-soft);

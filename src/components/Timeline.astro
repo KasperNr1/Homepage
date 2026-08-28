@@ -1,0 +1,22 @@
+---
+import type { TimelineEntry } from "../config/cv"
+
+interface Props {
+  entries: TimelineEntry[]
+}
+
+const { entries } = Astro.props
+---
+
+<ol class="timeline">
+  {
+    entries.map((entry) => (
+      <li class="timeline-entry">
+        <p class="timeline-period">{entry.period}</p>
+        <h3 class="timeline-title">{entry.title}</h3>
+        {entry.organisation && <p class="timeline-meta">{entry.organisation}</p>}
+        {entry.description && <p class="timeline-description">{entry.description}</p>}
+      </li>
+    ))
+  }
+</ol>

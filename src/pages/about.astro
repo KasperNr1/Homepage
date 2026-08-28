@@ -1,0 +1,104 @@
+---
+import { getCollection } from "astro:content"
+import { Image } from "astro:assets"
+import BaseLayout from "../layouts/BaseLayout.astro"
+import Timeline from "../components/Timeline.astro"
+import { education, experience, facts, skillGroups, type TimelineEntry } from "../config/cv"
+import { siteConfig } from "../config/site"
+import portrait from "../assets/portrait-placeholder.png"
+
+const projectEntries: TimelineEntry[] = (await getCollection("projects"))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .map((project) => ({
+    period: project.data.date.toLocaleDateString("de-DE", { month: "2-digit", year: "numeric" }),
+    title: project.data.title,
+    organisation: project.data.techStack.join(" · "),
+    description: project.data.description,
+  }))
+---
+
+<BaseLayout
+  title="Über mich"
+  description="Werdegang, Erfahrung und Schwerpunkte von Matti Magnus Bos."
+>
+  <section id="hero">
+    <h1>Über mich</h1>
+    <p class="tagline">Informatikstudent, Softwareentwickler und Dozent aus Dornstetten.</p>
+  </section>
+
+  <section>
+    <h2>Hintergrund</h2>
+    <div class="about-grid">
+      <Image
+        class="portrait"
+        src={portrait}
+        alt={`Porträt von ${siteConfig.owner}`}
+        widths={[240, 480]}
+        sizes="(max-width: 620px) 220px, 240px"
+        loading="eager"
+      />
+      <div class="about-body">
+        <p>
+          Ich studiere Informatik im Bachelor und arbeite aktuell an meinem Abschluss. Anschließend
+          plane ich, mit einem Master weiterzumachen.
+        </p>
+        <p>
+          Parallel zum Studium unterrichte ich als Dozent und Lehrer. Was mich antreibt, sind Tools,
+          die aus einem eigenen Problem entstehen und am Ende auch anderen weiterhelfen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ausbildung</h2>
+    <Timeline entries={education} />
+  </section>
+
+  <section>
+    <h2>Erfahrung</h2>
+    <Timeline entries={experience} />
+  </section>
+
+  <section>
+    <h2>Projekte</h2>
+    <Timeline entries={projectEntries} />
+    <a class="project-link" href="/#projects">Alle Projekte ansehen &rarr;</a>
+  </section>
+
+  <section>
+    <h2>Kenntnisse</h2>
+    <div class="skill-groups">
+      {
+        skillGroups.map((group) => (
+          <div class="skill-group">
+            <h3 class="skill-label">{group.label}</h3>
+            <p class="skill-items">
+              {group.items.map((item) => (
+                <span class="badge">{item}</span>
+              ))}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2>Steckbrief</h2>
+    <aside class="metadata-card" aria-label="Steckbrief">
+      <ul class="metadata-list">
+        {
+          facts.map((fact) => (
+            <li>
+              {fact.label}
+              <br />
+              <strong>{fact.value}</strong>
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
+    <a class="project-link" href="/contact">Kontakt aufnehmen &rarr;</a>
+  </section>
+</BaseLayout>
