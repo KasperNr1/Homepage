@@ -63,6 +63,13 @@ test("the theme menu stays usable inside the collapsed navigation", async ({ pag
   // being clipped by it and merely adding to the scroll extent.
   await expect(menu).toBeInViewport()
 
+  // If the UA inset edges survive, the popover stretches into the viewport corner
+  // and the grid rows blow up, which is what Safari did.
+  const box = (await menu.boundingBox())!
+  const viewport = page.viewportSize()!
+  expect(box.height).toBeLessThan(viewport.height / 2)
+  expect(box.width).toBeLessThan(viewport.width / 2)
+
   // No force: this only passes if the option is genuinely the hit target.
   await page.locator('button[data-theme-value="dark"]').click()
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark")

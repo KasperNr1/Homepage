@@ -268,9 +268,19 @@ html:not([data-theme]) {
 
 .theme-menu {
   /* A popover, so it renders in the top layer and escapes the collapsed
-     navigation's scroll container. Placed against the button from theme.ts. */
+     navigation's scroll container. Placed against the button from theme.ts.
+
+     The UA sheet anchors [popover] with inset: 0. Safari keeps the right and
+     bottom edges once JS sets left and top, which stretches the box into the
+     viewport corner and blows up the grid rows, so reset the longhands and pin
+     the size explicitly. An explicit size also wins if an edge does survive. */
   position: fixed;
-  inset: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  width: fit-content;
+  height: fit-content;
   margin: 0;
   min-width: 120px;
   padding: 0.35rem;
@@ -283,6 +293,7 @@ html:not([data-theme]) {
 
 .theme-menu:popover-open {
   display: grid;
+  align-content: start;
 }
 
 .theme-option {
