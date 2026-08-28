@@ -16,6 +16,13 @@ const { entries } = Astro.props
         <h3 class="timeline-title">{entry.title}</h3>
         {entry.organisation && <p class="timeline-meta">{entry.organisation}</p>}
         {entry.description && <p class="timeline-description">{entry.description}</p>}
+        {entry.points && (
+          <ul class="timeline-points">
+            {entry.points.map((point) => (
+              <li>{point}</li>
+            ))}
+          </ul>
+        )}
       </li>
     ))
   }

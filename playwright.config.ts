@@ -30,7 +30,9 @@ export default defineConfig({
     // Builds first so the suite can never run against a stale dist.
     command: `npm run build && npm run preview -- --port ${port}`,
     url: baseURL,
-    reuseExistingServer: !process.env.CI,
+    // Never adopt whatever already holds the port. A stray astro dev server would
+    // otherwise be tested instead, silently, dev toolbar and all.
+    reuseExistingServer: false,
     timeout: 300_000,
   },
 })

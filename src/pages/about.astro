@@ -3,7 +3,17 @@ import { getCollection } from "astro:content"
 import { Image } from "astro:assets"
 import BaseLayout from "../layouts/BaseLayout.astro"
 import Timeline from "../components/Timeline.astro"
-import { education, experience, facts, skillGroups, type TimelineEntry } from "../config/cv"
+import {
+  academicWork,
+  certificates,
+  education,
+  events,
+  experience,
+  facts,
+  skillGroups,
+  volunteering,
+  type TimelineEntry,
+} from "../config/cv"
 import { siteConfig } from "../config/site"
 import portrait from "../assets/portrait-placeholder.png"
 
@@ -39,12 +49,14 @@ const projectEntries: TimelineEntry[] = (await getCollection("projects"))
       />
       <div class="about-body">
         <p>
-          Ich studiere Informatik im Bachelor und arbeite aktuell an meinem Abschluss. Anschließend
-          plane ich, mit einem Master weiterzumachen.
+          Ich bin Softwareentwickler und stehe kurz vor dem Abschluss meines Informatikstudiums an
+          der DHBW in Horb. Neben der objektorientierten Entwicklung mit Java, C# und Python reizt
+          mich vor allem, komplexere Lösungen eigenständig aufzubauen.
         </p>
         <p>
-          Parallel zum Studium unterrichte ich als Dozent und Lehrer. Was mich antreibt, sind Tools,
-          die aus einem eigenen Problem entstehen und am Ende auch anderen weiterhelfen.
+          Genauso wichtig ist mir der Wissenstransfer: Ich arbeite neue Teammitglieder ein,
+          unterrichte Mathematik und bereite angehende Fachinformatiker auf ihre Abschlussprüfungen
+          vor. Was ich baue, entsteht meist aus einem eigenen Problem heraus.
         </p>
       </div>
     </div>
@@ -58,6 +70,11 @@ const projectEntries: TimelineEntry[] = (await getCollection("projects"))
   <section>
     <h2>Erfahrung</h2>
     <Timeline entries={experience} />
+  </section>
+
+  <section>
+    <h2>Studien- und Abschlussarbeiten</h2>
+    <Timeline entries={academicWork} />
   </section>
 
   <section>
@@ -82,6 +99,21 @@ const projectEntries: TimelineEntry[] = (await getCollection("projects"))
         ))
       }
     </div>
+  </section>
+
+  <section>
+    <h2>Engagement</h2>
+    <Timeline entries={volunteering} />
+  </section>
+
+  <section>
+    <h2>Hackathons und Events</h2>
+    <Timeline entries={events} />
+  </section>
+
+  <section>
+    <h2>Zertifikate</h2>
+    <Timeline entries={certificates} />
   </section>
 
   <section>
