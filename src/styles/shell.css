@@ -267,22 +267,22 @@ html:not([data-theme]) {
 }
 
 .theme-menu {
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  right: 0;
+  /* A popover, so it renders in the top layer and escapes the collapsed
+     navigation's scroll container. Placed against the button from theme.ts. */
+  position: fixed;
+  inset: auto;
+  margin: 0;
   min-width: 120px;
   padding: 0.35rem;
-  display: grid;
   gap: 0.2rem;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--card-bg);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-  z-index: 220;
 }
 
-.theme-menu[hidden] {
-  display: none;
+.theme-menu:popover-open {
+  display: grid;
 }
 
 .theme-option {

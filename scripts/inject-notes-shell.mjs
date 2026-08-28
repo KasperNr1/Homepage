@@ -55,9 +55,9 @@ function navigationHtml() {
     `<span class="nav-toggle-icon" aria-hidden="true"></span></button>` +
     `<ul id="site-navigation-links" class="nav-links">${links}` +
     `<li class="theme-switcher">` +
-    `<button type="button" class="theme-toggle" aria-label="Darstellung umschalten" aria-expanded="false" aria-haspopup="true">` +
+    `<button type="button" class="theme-toggle" popovertarget="theme-menu" aria-label="Darstellung umschalten" aria-expanded="false" aria-haspopup="true">` +
     `<span class="theme-glyph" aria-hidden="true"></span><span class="sr-only">Darstellung öffnen</span></button>` +
-    `<div class="theme-menu" hidden>${themeOptions}</div>` +
+    `<div id="theme-menu" class="theme-menu" popover>${themeOptions}</div>` +
     `</li></ul></nav>`
   )
 }

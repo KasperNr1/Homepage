@@ -53,6 +53,22 @@ test("the theme preference carries between the site and the notes", async ({ pag
   await expect(page.locator(".theme-option.is-active")).toHaveText("Dunkel")
 })
 
+test("the theme menu stays usable inside the collapsed navigation", async ({ page }) => {
+  await page.goto("/")
+  await openThemeMenu(page)
+
+  const menu = page.locator(".theme-menu")
+  await expect(menu).toBeVisible()
+  // The collapsed navigation scrolls; a popover escapes that container instead of
+  // being clipped by it and merely adding to the scroll extent.
+  await expect(menu).toBeInViewport()
+
+  // No force: this only passes if the option is genuinely the hit target.
+  await page.locator('button[data-theme-value="dark"]').click()
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark")
+  await expect(menu).toBeHidden()
+})
+
 test("the notes drop Quartz's own chrome", async ({ page }) => {
   await page.goto("/notes/")
 

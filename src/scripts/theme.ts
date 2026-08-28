@@ -70,9 +70,13 @@ export function initThemeSwitcher(): void {
     })
   }
 
-  function setMenuOpen(isOpen: boolean): void {
-    menu!.hidden = !isOpen
-    toggle!.setAttribute("aria-expanded", isOpen ? "true" : "false")
+  /** Top layer elements are not laid out next to their button, so place it here. */
+  function positionMenu(): void {
+    const anchor = toggle!.getBoundingClientRect()
+    const width = menu!.offsetWidth
+    const left = Math.min(Math.max(8, anchor.right - width), window.innerWidth - width - 8)
+    menu!.style.left = `${left}px`
+    menu!.style.top = `${anchor.bottom + 8}px`
   }
 
   applyTheme(readThemePreference())
@@ -84,21 +88,29 @@ export function initThemeSwitcher(): void {
       storeThemePreference(choice)
       applyTheme(choice)
       markActive(choice)
-      setMenuOpen(false)
+      menu.hidePopover()
     })
   })
 
-  toggle.addEventListener("click", () => setMenuOpen(menu.hidden))
-
-  document.addEventListener("click", (event) => {
-    if (event.target instanceof Node && !switcher.contains(event.target)) {
-      setMenuOpen(false)
+  // Opening, closing and light dismiss are handled by the popover itself.
+  menu.addEventListener("toggle", (event) => {
+    const isOpen = (event as ToggleEvent).newState === "open"
+    toggle.setAttribute("aria-expanded", isOpen ? "true" : "false")
+    if (isOpen) {
+      positionMenu()
     }
   })
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      setMenuOpen(false)
-    }
-  })
+  // The collapsed navigation scrolls, so keep the popover attached to its button.
+  for (const type of ["scroll", "resize"] as const) {
+    window.addEventListener(
+      type,
+      () => {
+        if (menu.matches(":popover-open")) {
+          positionMenu()
+        }
+      },
+      true,
+    )
+  }
 }

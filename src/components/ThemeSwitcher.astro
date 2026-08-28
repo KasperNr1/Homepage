@@ -10,6 +10,7 @@ const themeOptions = [
   <button
     type="button"
     class="theme-toggle"
+    popovertarget="theme-menu"
     aria-label="Darstellung umschalten"
     aria-expanded="false"
     aria-haspopup="true"
@@ -17,7 +18,7 @@ const themeOptions = [
     <span class="theme-glyph" aria-hidden="true"></span>
     <span class="sr-only">Darstellung öffnen</span>
   </button>
-  <div class="theme-menu" hidden>
+  <div id="theme-menu" class="theme-menu" popover>
     {
       themeOptions.map((option) => (
         <button type="button" class="theme-option" data-theme-value={option.value} aria-pressed="false">
