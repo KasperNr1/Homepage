@@ -2,6 +2,8 @@
 import SiteNavigation from "../components/SiteNavigation.astro"
 import SiteFooter from "../components/SiteFooter.astro"
 import { shells, siteConfig, type ShellName } from "../config/site"
+import { themeBootstrapScript } from "../scripts/theme-bootstrap"
+import "../styles/shell.css"
 import "../styles/global.css"
 
 interface Props {
@@ -41,27 +43,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url)
     <meta name="twitter:card" content="summary" />
 
     {/* Applies the stored theme before first paint so the page never flashes the wrong palette. */}
-    <script is:inline>
-      ;(() => {
-        let preference = "system"
-        try {
-          const stored = localStorage.getItem("theme-preference")
-          if (stored === "light" || stored === "dark" || stored === "system") {
-            preference = stored
-          }
-        } catch {
-          // Storage can be blocked by browser privacy settings.
-        }
-        const theme =
-          preference === "system"
-            ? window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light"
-            : preference
-        document.documentElement.setAttribute("data-theme", theme)
-        document.documentElement.style.colorScheme = theme
-      })()
-    </script>
+    <script is:inline set:html={themeBootstrapScript} />
   </head>
   <body>
     <SiteNavigation brand={brand} brandHref={brandHref} links={navigation} />

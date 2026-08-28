@@ -1,0 +1,20 @@
+/* Fits the generated Quartz notes inside the site shell.
+   Loaded only on /notes/ pages, appended after shell.css. */
+
+.site-navigation {
+  z-index: 1000;
+}
+
+/* Quartz pins its sidebars to the viewport top, which the sticky navbar now occupies. */
+#quartz-root .sidebar {
+  top: var(--nav-height);
+  max-height: calc(100vh - var(--nav-height));
+}
+
+#quartz-root .page > #quartz-body {
+  margin-top: 1rem;
+}
+
+.site-footer {
+  margin-top: 2rem;
+}

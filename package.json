@@ -10,7 +10,7 @@
     "build": "npm run notes:build && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "notes:build": "node scripts/build-notes.mjs --output public/notes",
+    "notes:build": "node scripts/build-notes.mjs && node scripts/inject-notes-shell.mjs",
     "notes:update": "node scripts/refresh-notes.mjs",
     "test:unit": "vitest run",
     "test:visual": "playwright test",
@@ -30,6 +30,7 @@
     "@testing-library/user-event": "^14.6.5",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
+    "esbuild": "^0.28.2",
     "jsdom": "^30.0.1",
     "vitest": "^4.1.11"
   }
