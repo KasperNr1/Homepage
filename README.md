@@ -16,12 +16,16 @@ npm install
 npm run dev
 ```
 
-The dev server runs at <http://localhost:4321>. It serves `public/` as-is, so `/notes/` only works
-after the notes have been generated at least once:
+The dev server runs at <http://localhost:4321>. The notes are static output rather than Astro
+routes, so `/notes/` stays empty until they have been generated at least once:
 
 ```sh
 npm run notes:build
 ```
+
+Re-run that whenever `notes/volcano.ref` changes. Astro's dev server only serves `public/` by exact
+path, so `astro.config.mjs` adds a small dev-only middleware that resolves `/notes/page` and
+`/notes/section/` the same way `nginx.conf` does in production.
 
 Astro backgrounds the dev server when it detects an agentic terminal. Use `npx astro dev stop` to
 shut one down; closing the terminal is not enough.
