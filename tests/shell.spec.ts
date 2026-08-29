@@ -76,6 +76,41 @@ test("the theme menu stays usable inside the collapsed navigation", async ({ pag
   await expect(menu).toBeHidden()
 })
 
+test("the navigation marks the current section", async ({ page }) => {
+  await page.goto("/about")
+  await expect(page.locator('.nav-links > li > a[aria-current="page"]')).toHaveText("Über mich")
+
+  // Section aware: a project detail page still marks the Projekte entry.
+  await page.goto("/projects/blablatex")
+  const active = page.locator('.nav-links > li > a[aria-current="page"]')
+  await expect(active).toHaveCount(1)
+  await expect(active).toHaveText("Projekte")
+
+  await page.goto("/notes/")
+  await expect(page.locator('.nav-links > li > a[aria-current="page"]')).toHaveText("Notizen")
+})
+
+test("the notes navigation renders with the same metrics as the site", async ({ page }) => {
+  async function linkMetrics(path: string) {
+    await page.goto(path)
+    return page.evaluate(() => {
+      const link = document.querySelector(".nav-links > li > a")
+      const style = getComputedStyle(link as Element)
+      return {
+        fontSize: style.fontSize,
+        fontWeight: style.fontWeight,
+        lineHeight: style.lineHeight,
+        fontFamily: style.fontFamily,
+      }
+    })
+  }
+
+  // Quartz styles bare links, so this guards the shell against inheriting them.
+  const site = await linkMetrics("/")
+  const notes = await linkMetrics("/notes/")
+  expect(notes).toEqual(site)
+})
+
 test("the notes drop Quartz's own chrome", async ({ page }) => {
   await page.goto("/notes/")
 

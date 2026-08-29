@@ -63,3 +63,20 @@ export const shells = {
 } satisfies Record<string, Shell>
 
 export type ShellName = keyof typeof shells
+
+/** Section aware, so /projects also marks the entry while on /projects/blablatex. */
+export function isActiveNavLink(href: string, pathname: string): boolean {
+  if (!href.startsWith("/")) {
+    return false
+  }
+
+  const trim = (value: string) =>
+    value.length > 1 && value.endsWith("/") ? value.slice(0, -1) : value
+  const target = trim(href)
+  const current = trim(pathname)
+
+  if (target === "/") {
+    return current === "/"
+  }
+  return current === target || current.startsWith(`${target}/`)
+}

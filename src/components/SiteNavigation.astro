@@ -1,6 +1,6 @@
 ---
 import ThemeSwitcher from "./ThemeSwitcher.astro"
-import type { NavigationLink } from "../config/site"
+import { isActiveNavLink, type NavigationLink } from "../config/site"
 
 interface Props {
   brand: string
@@ -9,6 +9,7 @@ interface Props {
 }
 
 const { brand, brandHref, links } = Astro.props
+const pathname = Astro.url.pathname
 ---
 
 <nav class="site-navigation">
@@ -24,7 +25,18 @@ const { brand, brandHref, links } = Astro.props
     <span class="nav-toggle-icon" aria-hidden="true"></span>
   </button>
   <ul id="site-navigation-links" class="nav-links">
-    {links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+    {
+      links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            aria-current={isActiveNavLink(link.href, pathname) ? "page" : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
     <ThemeSwitcher />
   </ul>
 </nav>

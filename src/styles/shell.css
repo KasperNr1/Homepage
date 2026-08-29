@@ -97,11 +97,55 @@ html:not([data-theme]) {
   text-decoration: none;
   color: var(--muted);
   font-size: 0.9rem;
+  /* Quartz styles bare links, so the shell states its own metrics rather than
+     inheriting whatever the surrounding page happens to set. */
+  font-weight: 400;
+  line-height: 1.7;
   transition: color 0.15s;
+}
+
+.nav-name a {
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .site-navigation a:hover {
   color: var(--text);
+}
+
+/* Grows from the left on hover and stays put on the current page. */
+.nav-links > li > a {
+  position: relative;
+}
+
+.nav-links > li > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.4rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.2s ease;
+}
+
+.nav-links > li > a:hover::after,
+.nav-links > li > a:focus-visible::after,
+.nav-links > li > a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.nav-links > li > a[aria-current="page"] {
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-links > li > a::after {
+    transition: none;
+  }
 }
 
 .nav-measurement {
@@ -226,6 +270,17 @@ html:not([data-theme]) {
 .site-navigation.nav-is-collapsed > .nav-links > li > a:focus-visible {
   background: var(--email-card-bg);
   color: var(--text);
+}
+
+/* The dropdown stacks full width blocks, where an underline reads as a divider. */
+.site-navigation.nav-is-collapsed > .nav-links > li > a::after {
+  display: none;
+}
+
+.site-navigation.nav-is-collapsed > .nav-links > li > a[aria-current="page"] {
+  background: var(--email-card-bg);
+  color: var(--accent-strong);
+  font-weight: 600;
 }
 
 .site-navigation.nav-is-collapsed .theme-switcher {

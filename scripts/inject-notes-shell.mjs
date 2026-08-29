@@ -20,7 +20,7 @@ async function loadTypeScriptModule(relativePath) {
   return import(`data:text/javascript;base64,${source}`)
 }
 
-const { shells, siteConfig } = await loadTypeScriptModule("src/config/site.ts")
+const { shells, siteConfig, isActiveNavLink } = await loadTypeScriptModule("src/config/site.ts")
 const { themeBootstrapScript } = await loadTypeScriptModule("src/scripts/theme-bootstrap.ts")
 const shell = shells.site
 
@@ -35,7 +35,11 @@ function escapeHtml(value) {
 /** Mirrors src/components/SiteNavigation.astro and ThemeSwitcher.astro. */
 function navigationHtml() {
   const links = shell.navigation
-    .map((link) => `<li><a href="${escapeHtml(link.href)}">${escapeHtml(link.label)}</a></li>`)
+    .map((link) => {
+      // Every injected page lives under /notes/, so the active entry is fixed.
+      const current = isActiveNavLink(link.href, "/notes/") ? ' aria-current="page"' : ""
+      return `<li><a href="${escapeHtml(link.href)}"${current}>${escapeHtml(link.label)}</a></li>`
+    })
     .join("")
   const themeOptions = [
     ["system", "System"],
