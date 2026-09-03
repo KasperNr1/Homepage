@@ -1,4 +1,5 @@
 import { build } from "esbuild"
+import { createHash } from "node:crypto"
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
@@ -132,6 +133,14 @@ async function writeRandomNoteSlugs(outputDirectory) {
   return slugs.length
 }
 
+/** The pages are not fingerprinted, so a stable asset name would go stale in a CDN. */
+async function writeFingerprinted(outputDirectory, name, extension, content) {
+  const digest = createHash("sha256").update(content).digest("hex").slice(0, 8)
+  const fileName = `${name}-${digest}${extension}`
+  await writeFile(path.join(outputDirectory, fileName), content, "utf8")
+  return fileName
+}
+
 export async function injectNotesShell(options = {}) {
   const sourceDirectory = path.resolve(
     options.sourceDirectory ?? path.join(projectRoot, ".cache", "homepage", "notes-public"),
@@ -149,26 +158,38 @@ export async function injectNotesShell(options = {}) {
       readFile(path.join(projectRoot, "src", "styles", name), "utf8"),
     ),
   )
-  await writeFile(path.join(outputDirectory, "site-shell.css"), styles.join("\n"), "utf8")
+  const styleSheet = await writeFingerprinted(
+    outputDirectory,
+    "site-shell",
+    ".css",
+    styles.join("\n"),
+  )
 
-  await build({
+  const bundle = await build({
     entryPoints: [path.join(projectRoot, "src", "scripts", "notes-shell.ts")],
     outfile: path.join(outputDirectory, "site-shell.js"),
     bundle: true,
     minify: true,
     format: "iife",
     target: "es2020",
+    write: false,
     logLevel: "warning",
   })
+  const script = await writeFingerprinted(
+    outputDirectory,
+    "site-shell",
+    ".js",
+    bundle.outputFiles[0].text,
+  )
 
   const navigation = navigationHtml()
   const footer = footerHtml()
   const lucky = luckyButtonHtml()
   const readerModeButton = '<button class="readermode"'
   const headExtra =
-    `<link rel="stylesheet" href="/notes/site-shell.css">` +
+    `<link rel="stylesheet" href="/notes/${styleSheet}">` +
     `<script>${themeBootstrapScript}</script>`
-  const bodyExtra = `<script src="/notes/site-shell.js" defer></script>`
+  const bodyExtra = `<script src="/notes/${script}" defer></script>`
 
   const noteCount = await writeRandomNoteSlugs(outputDirectory)
   const files = await collectHtmlFiles(outputDirectory)
