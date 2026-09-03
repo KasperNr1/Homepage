@@ -121,3 +121,23 @@ test("the notes drop Quartz's own chrome", async ({ page }) => {
   // Quartz's own search and explorer stay.
   await expect(page.locator(".search-button").first()).toBeVisible()
 })
+
+test("the lucky button opens a random note", async ({ page }) => {
+  await page.goto("/notes/")
+
+  const lucky = page.locator(".lucky-button")
+  const reader = page.locator(".readermode")
+  const luckyBox = (await lucky.boundingBox())!
+  const readerBox = (await reader.boundingBox())!
+
+  // It has to read as a sibling of Quartz's reader mode button, just left of it.
+  expect(luckyBox.x + luckyBox.width).toBeLessThanOrEqual(readerBox.x)
+  expect(luckyBox.width).toBe(readerBox.width)
+  expect(luckyBox.height).toBe(readerBox.height)
+  expect(luckyBox.y).toBe(readerBox.y)
+
+  await lucky.click()
+  await page.waitForURL((url) => url.pathname !== "/notes/")
+  expect(page.url()).toContain("/notes/")
+  await expect(page.locator("article").first()).toBeVisible()
+})
