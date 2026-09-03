@@ -188,17 +188,18 @@ export async function injectNotesShell(options = {}) {
     await writeFile(file, html, "utf8")
   }
 
-  // Quartz's 404 page ships without the sidebar, so it carries no reader mode button.
-  const sidebarPages = files.filter((file) => path.basename(file) !== "404.html").length
-  if (luckyButtons !== sidebarPages) {
+  // Quartz's 404 page and its case redirect stubs ship without the sidebar, and a
+  // case-insensitive filesystem folds the stubs away, so only the anchor can be checked.
+  if (luckyButtons === 0) {
     throw new Error(
-      `Placed the lucky button on ${luckyButtons} of ${sidebarPages} notes pages with a sidebar. ` +
+      "No notes page carries Quartz's reader mode button, so the lucky button has nowhere to go. " +
         "Review the Quartz upgrade before building.",
     )
   }
 
   console.log(
-    `Injected the site shell into ${files.length} notes pages; ${noteCount} notes are in the lucky draw.`,
+    `Injected the site shell into ${files.length} notes pages, the lucky button into ${luckyButtons}; ` +
+      `${noteCount} notes are in the draw.`,
   )
   return outputDirectory
 }
