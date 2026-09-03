@@ -94,7 +94,8 @@ test("the notes navigation renders with the same metrics as the site", async ({ 
   async function linkMetrics(path: string) {
     await page.goto(path)
     return page.evaluate(() => {
-      const link = document.querySelector(".nav-links > li > a")
+      // The current entry is bold in the collapsed menu, so compare an idle one.
+      const link = document.querySelector(".nav-links > li > a:not([aria-current])")
       const style = getComputedStyle(link as Element)
       return {
         fontSize: style.fontSize,
@@ -139,5 +140,6 @@ test("the lucky button opens a random note", async ({ page }) => {
   await lucky.click()
   await page.waitForURL((url) => url.pathname !== "/notes/")
   expect(page.url()).toContain("/notes/")
-  await expect(page.locator("article").first()).toBeVisible()
+  // Some notes are stubs with an empty body, so assert on Quartz's title instead.
+  await expect(page.locator("h1.article-title")).toBeVisible()
 })
