@@ -57,6 +57,12 @@ html:not([data-theme]) {
   color-scheme: light dark;
 }
 
+/* Pages that do not scroll would otherwise lay the navigation out a scrollbar
+   further right than the ones that do. */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* ── Navigation ── */
 .site-navigation {
   position: sticky;

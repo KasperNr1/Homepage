@@ -112,6 +112,26 @@ test("the notes navigation renders with the same metrics as the site", async ({ 
   expect(notes).toEqual(site)
 })
 
+test("the navigation sits in the same place on every page", async ({ page }) => {
+  // Tall enough that the short pages do not scroll, which is the case a reserved
+  // scrollbar gutter has to cover. Quartz sizing its root at 100vw is the other.
+  await page.setViewportSize({ width: 1280, height: 1600 })
+
+  async function navEdges(path: string) {
+    await page.goto(path)
+    return page.evaluate(() => {
+      const nav = document.querySelector(".site-navigation")!.getBoundingClientRect()
+      const links = document.querySelector(".nav-links")!.getBoundingClientRect()
+      return { navRight: Math.round(nav.right), linksRight: Math.round(links.right) }
+    })
+  }
+
+  const home = await navEdges("/")
+  for (const path of ["/contact", "/impressum", "/notes/", "/notes/architektur/"]) {
+    expect(await navEdges(path), path).toEqual(home)
+  }
+})
+
 test("the notes drop Quartz's own chrome", async ({ page }) => {
   await page.goto("/notes/")
 

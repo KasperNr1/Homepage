@@ -1,6 +1,12 @@
 /* Fits the generated Quartz notes inside the site shell.
    Loaded only on /notes/ pages, appended after shell.css. */
 
+/* Quartz sizes the root at 100vw, which is a scrollbar wider than the content
+   box and shifts the whole shell right of where it sits on the Astro pages. */
+html {
+  width: auto;
+}
+
 .site-navigation {
   z-index: 1000;
 }
