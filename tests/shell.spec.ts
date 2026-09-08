@@ -32,6 +32,9 @@ test("the notes shell matches the site shell", async ({ page }) => {
 
 /** At narrow widths the switcher sits inside the collapsed navigation menu. */
 async function openThemeMenu(page: import("@playwright/test").Page) {
+  // The navigation re-measures once the fonts land, which can collapse it and pull
+  // the switcher into the menu after the click target was already picked.
+  await page.evaluate(() => document.fonts?.ready)
   const navToggle = page.locator(".nav-toggle")
   if (await navToggle.isVisible()) {
     await navToggle.click()

@@ -36,6 +36,28 @@ export function initNavigation(): void {
     toggle!.setAttribute("aria-label", open ? "Navigation schließen" : "Navigation öffnen")
   }
 
+  function applyLayout(): void {
+    const navStyle = window.getComputedStyle(nav!)
+    const availableWidth =
+      nav!.clientWidth - parseFloat(navStyle.paddingLeft) - parseFloat(navStyle.paddingRight)
+    const requiredWidth =
+      brand!.getBoundingClientRect().width +
+      measureLinksWidth() +
+      parseFloat(navStyle.columnGap || navStyle.gap || "0")
+    const shouldCollapse = requiredWidth > availableWidth
+
+    if (shouldCollapse !== nav!.classList.contains("nav-is-collapsed")) {
+      nav!.classList.toggle("nav-is-collapsed", shouldCollapse)
+      setMenuOpen(false)
+    }
+
+    toggle!.hidden = !shouldCollapse
+    if (!shouldCollapse) {
+      links!.hidden = false
+    }
+  }
+
+  /** Batches the bursts of notifications a resize produces. */
   function updateLayout(): void {
     if (measurementFrame !== null) {
       return
@@ -43,25 +65,7 @@ export function initNavigation(): void {
 
     measurementFrame = window.requestAnimationFrame(() => {
       measurementFrame = null
-
-      const navStyle = window.getComputedStyle(nav!)
-      const availableWidth =
-        nav!.clientWidth - parseFloat(navStyle.paddingLeft) - parseFloat(navStyle.paddingRight)
-      const requiredWidth =
-        brand!.getBoundingClientRect().width +
-        measureLinksWidth() +
-        parseFloat(navStyle.columnGap || navStyle.gap || "0")
-      const shouldCollapse = requiredWidth > availableWidth
-
-      if (shouldCollapse !== nav!.classList.contains("nav-is-collapsed")) {
-        nav!.classList.toggle("nav-is-collapsed", shouldCollapse)
-        setMenuOpen(false)
-      }
-
-      toggle!.hidden = !shouldCollapse
-      if (!shouldCollapse) {
-        links!.hidden = false
-      }
+      applyLayout()
     })
   }
 
@@ -92,6 +96,8 @@ export function initNavigation(): void {
     window.addEventListener("resize", updateLayout)
   }
 
-  document.fonts?.ready.then(updateLayout)
-  updateLayout()
+  // Both passes are synchronous: waiting for a frame leaves the menu in its markup
+  // state until one is painted, which a backgrounded tab may never do.
+  document.fonts?.ready.then(applyLayout)
+  applyLayout()
 }
