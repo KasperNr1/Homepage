@@ -77,6 +77,43 @@ test("the unicorn theme is only ever chosen by hand", async ({ page }) => {
   await expect(root).toHaveAttribute("data-theme", "dark")
 })
 
+test("the sparkle trail follows a mouse but never a finger", async ({ browser, baseURL, page }) => {
+  await page.goto("/")
+  await page.evaluate(() => localStorage.setItem("theme-preference", "unicorn"))
+  await page.reload()
+  for (let i = 0; i < 6; i++) {
+    await page.mouse.move(120 + i * 40, 260 + i * 20)
+  }
+  // Individual sparkles clean themselves up, the layer stays until the theme changes.
+  await expect(page.locator(".sparkle-layer")).toHaveCount(1)
+
+  // The projects only narrow the viewport, which still reports a fine pointer.
+  const touch = await browser.newContext({
+    baseURL,
+    viewport: { width: 393, height: 851 },
+    hasTouch: true,
+    isMobile: true,
+  })
+  const phone = await touch.newPage()
+  await phone.goto("/")
+  await phone.evaluate(() => localStorage.setItem("theme-preference", "unicorn"))
+  await phone.reload()
+
+  await expect(phone.locator("html")).toHaveAttribute("data-theme", "unicorn")
+  expect(await phone.evaluate(() => matchMedia("(pointer: fine)").matches)).toBe(false)
+  // Dragging a finger does emit pointermove, so nothing spawning proves the trail
+  // never subscribed rather than merely never being provoked.
+  await phone.evaluate(() => {
+    for (let i = 0; i < 12; i++) {
+      window.dispatchEvent(
+        new PointerEvent("pointermove", { clientX: 40 + i * 20, clientY: 200 + i * 30 }),
+      )
+    }
+  })
+  await expect(phone.locator(".sparkle-layer")).toHaveCount(0)
+  await touch.close()
+})
+
 test("the theme menu stays usable inside the collapsed navigation", async ({ page }) => {
   await page.goto("/")
   await openThemeMenu(page)
