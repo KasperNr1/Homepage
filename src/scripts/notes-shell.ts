@@ -2,6 +2,7 @@
 // there behaves exactly like the Astro pages.
 import { initNavigation } from "./navigation"
 import { initLuckyButton } from "./notes-lucky"
+import { initSparkles } from "./sparkles"
 import { applyTheme, initThemeSwitcher, readThemePreference } from "./theme"
 
 function start(): void {
@@ -9,6 +10,7 @@ function start(): void {
   initNavigation()
   initThemeSwitcher()
   initLuckyButton()
+  initSparkles()
 }
 
 if (document.readyState === "loading") {

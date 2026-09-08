@@ -27,7 +27,7 @@ test("the notes shell matches the site shell", async ({ page }) => {
 
   expect(notes).toEqual(site)
   expect(site.nav.length).toBeGreaterThan(0)
-  expect(site.themeOptions).toEqual(["system", "light", "dark"])
+  expect(site.themeOptions).toEqual(["system", "light", "dark", "unicorn"])
 })
 
 /** At narrow widths the switcher sits inside the collapsed navigation menu. */
@@ -51,6 +51,27 @@ test("the theme preference carries between the site and the notes", async ({ pag
   // Quartz styles itself from its own attribute, so both have to agree.
   await expect(root).toHaveAttribute("saved-theme", "dark")
   await expect(page.locator(".theme-option.is-active")).toHaveText("Dunkel")
+})
+
+test("the unicorn theme is only ever chosen by hand", async ({ page }) => {
+  // Would resolve to dark if unicorn ever took part in the automatic choice.
+  await page.emulateMedia({ colorScheme: "dark" })
+  await page.goto("/")
+  await openThemeMenu(page)
+  await page.locator('button[data-theme-value="unicorn"]').click()
+
+  const root = page.locator("html")
+  await expect(root).toHaveAttribute("data-theme", "unicorn")
+  // Quartz has no unicorn palette, so it keeps rendering the light one.
+  await expect(root).toHaveAttribute("saved-theme", "light")
+
+  await page.goto("/notes/")
+  await expect(root).toHaveAttribute("data-theme", "unicorn")
+  await expect(page.locator(".theme-option.is-active")).toHaveText("Einhorn")
+
+  await openThemeMenu(page)
+  await page.locator('button[data-theme-value="system"]').click()
+  await expect(root).toHaveAttribute("data-theme", "dark")
 })
 
 test("the theme menu stays usable inside the collapsed navigation", async ({ page }) => {

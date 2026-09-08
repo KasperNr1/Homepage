@@ -21,6 +21,20 @@ html {
   margin-top: 1rem;
 }
 
+/* Quartz paints itself from its own palette, and only ships a light and a dark
+   one, so unicorn repaints the light set it inherits. */
+html[data-theme="unicorn"] {
+  --light: #fff6fb;
+  --lightgray: #f3d3e4;
+  --gray: #a8698c;
+  --darkgray: #5d2049;
+  --dark: #4a0f33;
+  --secondary: #c2185b;
+  --tertiary: #94104a;
+  --highlight: rgba(194, 24, 91, 0.1);
+  --textHighlight: #ffe08a;
+}
+
 /* Sits left of Quartz's reader mode button and matches its metrics. */
 .lucky-button {
   position: relative;

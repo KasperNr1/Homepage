@@ -1,12 +1,12 @@
-export type ThemePreference = "system" | "light" | "dark"
-export type ResolvedTheme = "light" | "dark"
+export type ThemePreference = "system" | "light" | "dark" | "unicorn"
+export type ResolvedTheme = "light" | "dark" | "unicorn"
 
 export const themeStorageKey = "theme-preference"
 
 export function readThemePreference(): ThemePreference {
   try {
     const value = localStorage.getItem(themeStorageKey)
-    if (value === "light" || value === "dark" || value === "system") {
+    if (value === "light" || value === "dark" || value === "system" || value === "unicorn") {
       return value
     }
   } catch {
@@ -27,19 +27,22 @@ export function resolveTheme(preference: ThemePreference): ResolvedTheme {
   if (preference !== "system") {
     return preference
   }
+  // Unicorn is never picked automatically, only chosen.
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }
 
 export function applyTheme(preference: ThemePreference): void {
   const theme = resolveTheme(preference)
+  const scheme = theme === "dark" ? "dark" : "light"
   const root = document.documentElement
 
   root.setAttribute("data-theme", theme)
-  root.style.colorScheme = theme
+  root.style.colorScheme = scheme
 
-  // Quartz styles the notes off its own attribute and body classes.
-  root.setAttribute("saved-theme", theme)
-  document.body?.classList.remove("theme-light", "theme-dark")
+  // Quartz styles the notes off its own attribute and body classes, and only
+  // knows the two schemes, so unicorn rides on the light one and overrides it.
+  root.setAttribute("saved-theme", scheme)
+  document.body?.classList.remove("theme-light", "theme-dark", "theme-unicorn")
   document.body?.classList.add(`theme-${theme}`)
 }
 

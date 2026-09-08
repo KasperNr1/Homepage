@@ -51,5 +51,10 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url)
       <slot />
     </main>
     <SiteFooter links={footer} />
+    <script>
+      import { initSparkles } from "../scripts/sparkles"
+
+      initSparkles()
+    </script>
   </body>
 </html>

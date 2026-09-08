@@ -4,7 +4,7 @@ export const themeBootstrapScript = `(() => {
   var preference = "system"
   try {
     var stored = localStorage.getItem("theme-preference")
-    if (stored === "light" || stored === "dark" || stored === "system") {
+    if (stored === "light" || stored === "dark" || stored === "system" || stored === "unicorn") {
       preference = stored
     }
   } catch (error) {
@@ -13,8 +13,9 @@ export const themeBootstrapScript = `(() => {
   var theme = preference === "system"
     ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
     : preference
+  var scheme = theme === "dark" ? "dark" : "light"
   var root = document.documentElement
   root.setAttribute("data-theme", theme)
-  root.setAttribute("saved-theme", theme)
-  root.style.colorScheme = theme
+  root.setAttribute("saved-theme", scheme)
+  root.style.colorScheme = scheme
 })()`

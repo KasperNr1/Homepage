@@ -46,6 +46,7 @@ function navigationHtml() {
     ["system", "System"],
     ["light", "Hell"],
     ["dark", "Dunkel"],
+    ["unicorn", "Einhorn"],
   ]
     .map(
       ([value, label]) =>
