@@ -67,7 +67,7 @@ test("the unicorn theme is only ever chosen by hand", async ({ page }) => {
 
   await page.goto("/notes/")
   await expect(root).toHaveAttribute("data-theme", "unicorn")
-  await expect(page.locator(".theme-option.is-active")).toHaveText("Einhorn")
+  await expect(page.locator(".theme-option.is-active")).toHaveText("Einhorn 🦄")
 
   await openThemeMenu(page)
   await page.locator('button[data-theme-value="system"]').click()

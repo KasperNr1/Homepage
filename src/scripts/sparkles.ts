@@ -1,8 +1,8 @@
 /** Cursor trail for the unicorn theme. Purely decorative, so it stays out of the
     way of pointers that hover nothing and of readers who asked for less motion. */
 const colors = ["#ff5fa8", "#e8a020", "#c2185b", "#ffb3d9", "#ffd05a"]
-const spawnDistance = 14
-const maxSparkles = 40
+const spawnDistance = 20
+const maxSparkles = 75
 
 let layer: HTMLDivElement | null = null
 let lastX = 0
@@ -48,14 +48,14 @@ function spawn(x: number, y: number): void {
       {
         transform: `translate(calc(-50% + ${drift}px), calc(-50% + 14px)) scale(1) rotate(${spin / 2}deg)`,
         opacity: 1,
-        offset: 0.35,
+        offset: 0.5,
       },
       {
         transform: `translate(calc(-50% + ${drift * 1.8}px), calc(-50% + 40px)) scale(0) rotate(${spin}deg)`,
         opacity: 0,
       },
     ],
-    { duration: 700 + Math.random() * 350, easing: "cubic-bezier(0.2, 0.6, 0.4, 1)" },
+    { duration: 1000 + Math.random() * 500, easing: "cubic-bezier(0.2, 0.6, 0.4, 1)" },
   )
 
   animation.onfinish = () => {
