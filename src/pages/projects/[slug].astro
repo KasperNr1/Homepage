@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { project } = Astro.props
-const { title, description, date, techStack, coverImage, download, status } = project.data
+const { title, description, date, techStack, hero, heroAlt, download, status } = project.data
 const { Content } = await render(project)
 const isExternalLink = download?.href.startsWith("http") ?? false
 ---
@@ -32,7 +32,7 @@ const isExternalLink = download?.href.startsWith("http") ?? false
 
   <section>
     <h2>Über das Projekt</h2>
-    {coverImage && <Image class="project-cover" src={coverImage} alt={title} loading="eager" />}
+    <Image class="project-hero" src={hero} alt={heroAlt ?? title} loading="eager" />
     <div class="about-body">
       <Content />
     </div>

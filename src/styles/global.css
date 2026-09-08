@@ -152,13 +152,24 @@ h2 {
   margin-top: 1.25rem;
 }
 
-.project-cover {
+/* Projects bring wildly different artwork, so the frame is pinned rather than trusted. */
+.project-hero {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   border: 1px solid var(--border);
   border-radius: 10px;
+  background: var(--card-bg);
+}
+
+section > .project-hero {
   margin-bottom: 1.5rem;
+}
+
+.portfolio-entry > .project-hero {
+  margin-bottom: 1rem;
 }
 
 .badge {

@@ -9,7 +9,9 @@ const projects = defineCollection({
       description: z.string(),
       date: z.coerce.date(),
       techStack: z.array(z.string()),
-      coverImage: image().optional(),
+      // The one visual a project has to bring, shown on its card and its own page.
+      hero: image(),
+      heroAlt: z.string().optional(),
       // Where the project can actually be obtained, e.g. PyPI or the App Store.
       download: z.object({ href: z.string(), label: z.string() }).optional(),
       status: z.string().optional(),

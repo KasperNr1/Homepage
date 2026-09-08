@@ -28,6 +28,12 @@ const projects = (await getCollection("projects")).sort(
 
           return (
             <article class="portfolio-entry">
+              <Image
+                class="project-hero"
+                src={project.data.hero}
+                alt={project.data.heroAlt ?? project.data.title}
+              />
+
               <p class="portfolio-date">
                 <time datetime={project.data.date.toISOString()}>
                   {project.data.date.toLocaleDateString("de-DE", {
@@ -36,14 +42,6 @@ const projects = (await getCollection("projects")).sort(
                   })}
                 </time>
               </p>
-
-              {project.data.coverImage && (
-                <Image
-                  class="project-cover"
-                  src={project.data.coverImage}
-                  alt={project.data.title}
-                />
-              )}
 
               <div class="project-header">
                 <h3>
