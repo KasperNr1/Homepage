@@ -4,7 +4,7 @@ description: Eine native macOS-App, mit der sich der Mauszeiger sofort zwischen 
 date: 2026-07-05
 techStack:
   - macOS-App
-hero: ../../assets/projects/gonzales-hero.svg
+hero: ../../assets/projects/gonzales-hero.webp
 status: Bald im App-Store verfügbar
 ---
 
