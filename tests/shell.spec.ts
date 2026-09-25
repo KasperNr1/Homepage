@@ -137,6 +137,25 @@ test("the theme menu stays usable inside the collapsed navigation", async ({ pag
   await expect(menu).toBeHidden()
 })
 
+test("every page opens with a single h1 in a hero", async ({ page }) => {
+  const paths = [
+    "/",
+    "/about",
+    "/projects",
+    "/projects/blablatex",
+    "/contact",
+    "/impressum",
+    "/policies/datenschutz",
+  ]
+
+  for (const path of paths) {
+    await page.goto(path)
+    const lead = await page.evaluate(() => document.querySelector("main")!.firstElementChild!.id)
+    expect(lead, path).toBe("hero")
+    await expect(page.locator("main h1"), path).toHaveCount(1)
+  }
+})
+
 test("the navigation marks the current section", async ({ page }) => {
   await page.goto("/about")
   await expect(page.locator('.nav-links > li > a[aria-current="page"]')).toHaveText("Über mich")

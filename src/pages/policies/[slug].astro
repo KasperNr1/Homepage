@@ -20,15 +20,19 @@ const { Content } = await render(policy)
 ---
 
 <BaseLayout title={title} shell={shell}>
+  <section id="hero">
+    <h1>{title}</h1>
+    <p class="tagline">
+      Stand:{" "}
+      <time datetime={lastUpdated.toISOString()}>
+        {lastUpdated.toLocaleDateString("de-DE", { dateStyle: "long" })}
+      </time>
+    </p>
+  </section>
+
   <section>
-    <h2>{title}</h2>
+    <h2>Erklärung</h2>
     <div class="about-body">
-      <p>
-        <strong>Stand:</strong>{" "}
-        <time datetime={lastUpdated.toISOString()}>
-          {lastUpdated.toLocaleDateString("de-DE", { dateStyle: "long" })}
-        </time>
-      </p>
       <Content />
     </div>
   </section>

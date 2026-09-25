@@ -362,13 +362,6 @@ section > .project-link {
   gap: 0.5rem;
 }
 
-/* Contact page */
-.contact-intro {
-  color: var(--text-soft);
-  max-width: 62ch;
-  margin-bottom: 1.25rem;
-}
-
 /* ── Side rail ── */
 /* Pages with a side card keep the reading measure every other page uses and park
    the card in the margin a centred column leaves empty anyway, instead of inside it. */
