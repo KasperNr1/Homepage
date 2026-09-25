@@ -80,3 +80,21 @@ test("an unreleased project shows its status instead of a dead button", async ({
   await expect(button).toHaveText("Bald im App-Store verfügbar")
   expect(await button.evaluate((el) => el.tagName)).toBe("P")
 })
+
+test("the download rail claims no space in the text column", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto("/projects/blablatex")
+
+  // The rail is a viewport tall and spans every row. Spanning only the first one
+  // stretches it instead, which shows up as a gap under the hero.
+  const gap = await page.evaluate(() => {
+    const badges = document.querySelector("#hero .project-header")!.getBoundingClientRect()
+    const next = document.querySelectorAll("main > section")[1].getBoundingClientRect()
+    return next.top - badges.bottom
+  })
+  const padding = await page
+    .locator("#hero")
+    .evaluate((el) => parseFloat(getComputedStyle(el).paddingBottom))
+
+  expect(gap).toBeLessThanOrEqual(padding + 4)
+})

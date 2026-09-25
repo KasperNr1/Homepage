@@ -380,6 +380,9 @@ section > .project-link {
     minmax(1.5rem, 1fr)
     minmax(0, var(--max-w))
     minmax(1.5rem, 1fr);
+  /* Spare rows so the rail's "1 / -1" has an explicit last line to reach for.
+     Without them it would span the first row only and stretch it to its height. */
+  grid-template-rows: repeat(20, auto);
 }
 
 .project-main > * {

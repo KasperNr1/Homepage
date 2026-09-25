@@ -18,8 +18,14 @@ for (const route of routes) {
     await expect(page).toHaveScreenshot(`${route.name}.png`, {
       fullPage: true,
       animations: "disabled",
-      // The notes graph is a force simulation that never settles.
-      mask: [page.locator(".graph-container"), page.locator(".global-graph-outer")],
+      mask: [
+        // The notes graph is a force simulation that never settles.
+        page.locator(".graph-container"),
+        page.locator(".global-graph-outer"),
+        // Scaling a photo is not bit exact once it arrives after first paint, and
+        // the frame around it is fixed by aspect-ratio anyway.
+        page.locator(".project-hero"),
+      ],
     })
   })
 }
