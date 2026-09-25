@@ -30,11 +30,30 @@ const projectEntries: TimelineEntry[] = (await getCollection("projects"))
 <BaseLayout
   title="Über mich"
   description="Werdegang, Erfahrung und Schwerpunkte von Matti Magnus Bos."
+  mainClass="has-rail"
 >
   <section id="hero">
     <h1>Über mich</h1>
     <p class="tagline">Informatikstudent, Softwareentwickler und Dozent aus Dornstetten.</p>
   </section>
+
+  <div class="side-rail">
+    <aside class="side-card" aria-labelledby="facts-heading">
+      <h2 id="facts-heading">Steckbrief</h2>
+      <a class="side-cta" href="/contact">Kontakt aufnehmen</a>
+      <ul class="metadata-list">
+        {
+          facts.map((fact) => (
+            <li>
+              {fact.label}
+              <br />
+              <strong>{fact.value}</strong>
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
+  </div>
 
   <section>
     <h2>Hintergrund</h2>
@@ -114,23 +133,5 @@ const projectEntries: TimelineEntry[] = (await getCollection("projects"))
   <section>
     <h2>Zertifikate</h2>
     <Timeline entries={certificates} />
-  </section>
-
-  <section>
-    <h2>Steckbrief</h2>
-    <aside class="metadata-card" aria-label="Steckbrief">
-      <ul class="metadata-list">
-        {
-          facts.map((fact) => (
-            <li>
-              {fact.label}
-              <br />
-              <strong>{fact.value}</strong>
-            </li>
-          ))
-        }
-      </ul>
-    </aside>
-    <a class="project-link" href="/contact">Kontakt aufnehmen &rarr;</a>
   </section>
 </BaseLayout>

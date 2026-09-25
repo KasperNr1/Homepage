@@ -369,10 +369,10 @@ section > .project-link {
   margin-bottom: 1.25rem;
 }
 
-/* ── Project detail ── */
-/* Keeps the reading measure every other page uses and parks the aside in the
-   margin a centred column leaves empty anyway, instead of inside it. */
-.project-main {
+/* ── Side rail ── */
+/* Pages with a side card keep the reading measure every other page uses and park
+   the card in the margin a centred column leaves empty anyway, instead of inside it. */
+.has-rail {
   max-width: none;
   padding: 0;
   display: grid;
@@ -385,31 +385,24 @@ section > .project-link {
   grid-template-rows: repeat(20, auto);
 }
 
-.project-main > * {
+.has-rail > * {
   grid-column: 2;
 }
 
-/* The aside sits between the hero and the first section, which breaks the
-   adjacency the section borders rely on. */
-.project-main > .download-rail + section {
+/* A rail wedged between two sections breaks the adjacency their borders rely on. */
+.has-rail > section + .side-rail + section {
   border-top: 1px solid var(--border);
 }
 
-.download-rail {
+.side-rail {
   margin-bottom: 2rem;
 }
 
-.download-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.1rem 1.15rem;
-}
-
-@media (min-width: 1180px) {
+/* Below this the margin column cannot hold a card wide enough to read. */
+@media (min-width: 1250px) {
   /* A full height rail is what lets the card centre itself against the viewport
      rather than against whatever section happens to sit next to it. */
-  .download-rail {
+  .side-rail {
     grid-column: 3;
     grid-row: 1 / -1;
     display: flex;
@@ -418,22 +411,16 @@ section > .project-link {
     position: sticky;
     top: var(--nav-height);
     height: calc(100vh - var(--nav-height));
-    width: 260px;
+    /* The margin column is only as wide as centring the text leaves it, so the
+       card follows that width instead of pressing against the viewport edge. */
+    max-width: 260px;
     margin-left: 2rem;
+    margin-right: 1.5rem;
     margin-bottom: 0;
   }
 }
 
-.download-card h2 {
-  font-size: 0.76rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.75rem;
-}
-
-.download-button {
+.side-cta {
   display: block;
   width: 100%;
   padding: 0.7rem 1rem;
@@ -448,13 +435,13 @@ section > .project-link {
   transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
 }
 
-.download-button:hover {
+.side-cta:hover {
   background: var(--accent-strong);
   box-shadow: 0 8px 18px var(--accent-shadow);
   transform: translateY(-1px);
 }
 
-.download-button.is-pending {
+.side-cta.is-pending {
   background: transparent;
   border-color: var(--border);
   color: var(--muted);
@@ -462,26 +449,30 @@ section > .project-link {
   cursor: default;
 }
 
-.download-note {
+.side-note {
   margin-top: 0.6rem;
   font-size: 0.82rem;
   color: var(--muted);
 }
 
-.download-meta {
+/* Only a card that leads with an action needs the list set apart from it. */
+.side-cta ~ .metadata-list {
   margin-top: 1.1rem;
   padding-top: 1.1rem;
   border-top: 1px solid var(--border);
+}
+
+.side-card .metadata-list {
   font-size: 0.85rem;
 }
 
-.download-meta a {
+.side-card .metadata-list a {
   color: var(--accent);
   font-weight: 500;
   text-decoration: none;
 }
 
-.download-meta a:hover {
+.side-card .metadata-list a:hover {
   text-decoration: underline;
 }
 
@@ -546,13 +537,6 @@ section > .project-link {
   margin-left: 1.1rem;
   color: var(--text-body);
   font-size: 0.92rem;
-}
-
-.contact-main-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.75fr) minmax(250px, 1fr);
-  gap: 1rem;
-  align-items: start;
 }
 
 .contact-primary {
@@ -626,7 +610,7 @@ section > .project-link {
 }
 
 .profile-card,
-.metadata-card {
+.side-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -634,7 +618,8 @@ section > .project-link {
 }
 
 .profile-card h3,
-.metadata-card h3 {
+.side-card h2,
+.side-card h3 {
   font-size: 0.76rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -671,18 +656,8 @@ section > .project-link {
   font-size: 0.92rem;
 }
 
-.metadata-card {
-  position: sticky;
-  top: 84px;
-}
-
 @media (max-width: 740px) {
-  .contact-main-grid,
   .profile-grid {
     grid-template-columns: 1fr;
-  }
-
-  .metadata-card {
-    position: static;
   }
 }

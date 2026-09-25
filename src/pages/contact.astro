@@ -27,58 +27,59 @@ const metadata = [
 <BaseLayout
   title="Kontakt"
   description="Kontaktmöglichkeiten zu Matti Magnus Bos: E-Mail, GitHub und LinkedIn."
+  mainClass="has-rail"
 >
+  <div class="side-rail">
+    <aside class="side-card" aria-labelledby="communication-heading">
+      <h2 id="communication-heading">Kommunikation</h2>
+      <ul class="metadata-list">
+        {
+          metadata.map((entry) => (
+            <li>
+              {entry.label}
+              <br />
+              <strong>{entry.value}</strong>
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
+  </div>
+
   <section id="contact">
     <h2>Kontakt</h2>
-    <div class="contact-main-grid">
-      <div class="contact-primary">
-        <p class="contact-intro">
-          Ob Projektidee, Zusammenarbeit oder einfach ein kurzes Hallo: Ich freue mich auf deine
-          Nachricht.
-        </p>
+    <div class="contact-primary">
+      <p class="contact-intro">
+        Ob Projektidee, Zusammenarbeit oder einfach ein kurzes Hallo: Ich freue mich auf deine
+        Nachricht.
+      </p>
 
-        <a
-          class="email-hero-card"
-          href={`mailto:${siteConfig.contactEmail}`}
-          aria-label={`E-Mail an ${siteConfig.contactEmail} schreiben`}
-        >
-          <span class="email-icon" aria-hidden="true">&#9993;</span>
-          <span class="email-hero-content">
-            <span class="email-label">Per E-Mail</span>
-            <span class="email-address">{siteConfig.contactEmail}</span>
-            <span class="email-cta">Mail-App öffnen</span>
-          </span>
-        </a>
+      <a
+        class="email-hero-card"
+        href={`mailto:${siteConfig.contactEmail}`}
+        aria-label={`E-Mail an ${siteConfig.contactEmail} schreiben`}
+      >
+        <span class="email-icon" aria-hidden="true">&#9993;</span>
+        <span class="email-hero-content">
+          <span class="email-label">Per E-Mail</span>
+          <span class="email-address">{siteConfig.contactEmail}</span>
+          <span class="email-cta">Mail-App öffnen</span>
+        </span>
+      </a>
 
-        <div class="profile-grid">
-          {
-            profiles.map((profile) => (
-              <article class="profile-card">
-                <h3>{profile.title}</h3>
-                <p>{profile.description}</p>
-                <a href={profile.href} target="_blank" rel="noopener">
-                  {profile.label}
-                </a>
-              </article>
-            ))
-          }
-        </div>
+      <div class="profile-grid">
+        {
+          profiles.map((profile) => (
+            <article class="profile-card">
+              <h3>{profile.title}</h3>
+              <p>{profile.description}</p>
+              <a href={profile.href} target="_blank" rel="noopener">
+                {profile.label}
+              </a>
+            </article>
+          ))
+        }
       </div>
-
-      <aside class="metadata-card" aria-label="Kommunikations-Metadaten">
-        <h3>Kommunikation</h3>
-        <ul class="metadata-list">
-          {
-            metadata.map((entry) => (
-              <li>
-                {entry.label}
-                <br />
-                <strong>{entry.value}</strong>
-              </li>
-            ))
-          }
-        </ul>
-      </aside>
     </div>
   </section>
 </BaseLayout>

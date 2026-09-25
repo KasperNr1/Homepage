@@ -24,7 +24,7 @@ const cta = action ?? download
 const releaseDate = date.toLocaleDateString("de-DE", { dateStyle: "long" })
 ---
 
-<BaseLayout title={title} description={description} mainClass="project-main">
+<BaseLayout title={title} description={description} mainClass="has-rail">
   <section id="hero">
     <h1>{title}</h1>
     <p class="tagline">{description}</p>
@@ -33,13 +33,13 @@ const releaseDate = date.toLocaleDateString("de-DE", { dateStyle: "long" })
     </p>
   </section>
 
-  <div class="download-rail">
-    <aside class="download-card" aria-labelledby="download-heading">
+  <div class="side-rail">
+    <aside class="side-card" aria-labelledby="download-heading">
       <h2 id="download-heading">Beziehen</h2>
       {
         cta ? (
           <a
-            class="download-button"
+            class="side-cta"
             href={cta.href}
             target={isExternalLink(cta.href) ? "_blank" : undefined}
             rel={isExternalLink(cta.href) ? "noopener" : undefined}
@@ -47,12 +47,12 @@ const releaseDate = date.toLocaleDateString("de-DE", { dateStyle: "long" })
             {cta.label}
           </a>
         ) : (
-          <p class="download-button is-pending">{status ?? "Noch nicht verfügbar"}</p>
+          <p class="side-cta is-pending">{status ?? "Noch nicht verfügbar"}</p>
         )
       }
-      {action?.note && <p class="download-note">{action.note}</p>}
+      {action?.note && <p class="side-note">{action.note}</p>}
 
-      <ul class="metadata-list download-meta">
+      <ul class="metadata-list">
         <li>Veröffentlicht<br /><strong>{releaseDate}</strong></li>
         {status && cta && <li>Status<br /><strong>{status}</strong></li>}
         <li>Technik<br /><strong>{techStack.join(", ")}</strong></li>

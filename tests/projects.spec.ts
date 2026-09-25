@@ -42,7 +42,7 @@ test("a project page leads with its download and keeps the reading measure", asy
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto("/projects/blablatex")
 
-  const card = page.locator(".download-card")
+  const card = page.locator(".side-card")
   const hero = page.locator("#hero")
   await expect(card).toBeVisible()
 
@@ -59,7 +59,7 @@ test("a project page leads with its download and keeps the reading measure", asy
 test("a command line project sends its button to the installation", async ({ page }) => {
   await page.goto("/projects/blablatex")
 
-  const button = page.locator(".download-button")
+  const button = page.locator(".side-cta")
   await expect(button).toHaveAttribute("href", "#installation")
   await button.click()
 
@@ -75,7 +75,7 @@ test("a command line project sends its button to the installation", async ({ pag
 test("an unreleased project shows its status instead of a dead button", async ({ page }) => {
   await page.goto("/projects/gonzales")
 
-  const button = page.locator(".download-button")
+  const button = page.locator(".side-cta")
   await expect(button).toHaveClass(/is-pending/)
   await expect(button).toHaveText("Bald im App-Store verfügbar")
   expect(await button.evaluate((el) => el.tagName)).toBe("P")
