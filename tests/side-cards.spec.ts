@@ -49,5 +49,10 @@ test("side cards stack above the content on a phone", async ({ page }) => {
     const sections = await page.locator("main > section").all()
     const prose = (await sections[sections.length - 1].boundingBox())!
     expect(card.y, name).toBeLessThan(prose.y)
+
+    // A rail that leads the page brings no padding of its own, so it would start
+    // underneath the sticky navigation.
+    const nav = (await page.locator(".site-navigation").boundingBox())!
+    expect(card.y, `${name} runs under the navigation`).toBeGreaterThan(nav.y + nav.height)
   }
 })
