@@ -37,6 +37,25 @@ test("every side card sits in the margin and centres itself", async ({ page }) =
   }
 })
 
+test("a side card leaves the text column where every other page has it", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+
+  async function heroBox(path: string) {
+    await page.goto(path)
+    const hero = (await page.locator("main > #hero").boundingBox())!
+    const heading = (await page.locator("main h1").boundingBox())!
+    return { heroX: Math.round(hero.x), heroWidth: Math.round(hero.width), h1X: Math.round(heading.x) }
+  }
+
+  // Pages without a rail are the reference the railed ones have to match.
+  const plain = await heroBox("/projects")
+  expect(await heroBox("/"), "home").toEqual(plain)
+
+  for (const { name, path } of railed) {
+    expect(await heroBox(path), name).toEqual(plain)
+  }
+})
+
 test("side cards stack above the content on a phone", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
 

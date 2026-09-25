@@ -369,9 +369,11 @@ section > .project-link {
   max-width: none;
   padding: 0;
   display: grid;
+  /* The middle column is main's content box, not its outer width: dropping main's
+     own padding here would shift every heading left of where other pages have it. */
   grid-template-columns:
     minmax(1.5rem, 1fr)
-    minmax(0, var(--max-w))
+    minmax(0, calc(var(--max-w) - 3rem))
     minmax(1.5rem, 1fr);
   /* Spare rows so the rail's "1 / -1" has an explicit last line to reach for.
      Without them it would span the first row only and stretch it to its height. */

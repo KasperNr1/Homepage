@@ -47,9 +47,9 @@ test("a project page leads with its download and keeps the reading measure", asy
   await expect(card).toBeVisible()
 
   // The whole point of the aside: it uses the margin instead of the text column.
+  // side-cards.spec.ts checks that column against the pages that have no rail.
   const cardBox = (await card.boundingBox())!
   const heroBox = (await hero.boundingBox())!
-  expect(heroBox.width).toBe(720)
   expect(cardBox.x).toBeGreaterThanOrEqual(heroBox.x + heroBox.width)
 
   await expect(page.locator("main > section#installation")).toBeVisible()
