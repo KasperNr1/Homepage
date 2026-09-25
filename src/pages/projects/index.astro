@@ -28,11 +28,14 @@ const projects = (await getCollection("projects")).sort(
 
           return (
             <article class="portfolio-entry">
-              <Image
-                class="project-hero"
-                src={project.data.hero}
-                alt={project.data.heroAlt ?? project.data.title}
-              />
+              <a
+                class="project-hero-link"
+                href={`/projects/${project.id}`}
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <Image class="project-hero" src={project.data.hero} alt="" />
+              </a>
 
               <p class="portfolio-date">
                 <time datetime={project.data.date.toISOString()}>

@@ -162,13 +162,26 @@ h2 {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--card-bg);
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+/* Hidden from assistive tech on purpose: the card already links to the same page
+   in text, so this only widens the target for a pointer. */
+.project-hero-link {
+  display: block;
+  border-radius: 10px;
+}
+
+.project-hero-link:hover .project-hero {
+  border-color: var(--accent);
+  box-shadow: 0 8px 18px var(--accent-shadow);
 }
 
 section > .project-hero {
   margin-bottom: 1.5rem;
 }
 
-.portfolio-entry > .project-hero {
+.portfolio-entry > .project-hero-link {
   margin-bottom: 1rem;
 }
 
