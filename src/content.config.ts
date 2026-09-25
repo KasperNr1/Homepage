@@ -12,8 +12,30 @@ const projects = defineCollection({
       // The one visual a project has to bring, shown on its card and its own page.
       hero: image(),
       heroAlt: z.string().optional(),
+      // The button at the top of the project page. An in-page target such as
+      // "#installation" keeps command line tools on the page.
+      action: z
+        .object({ href: z.string(), label: z.string(), note: z.string().optional() })
+        .optional(),
       // Where the project can actually be obtained, e.g. PyPI or the App Store.
       download: z.object({ href: z.string(), label: z.string() }).optional(),
+      install: z
+        .object({
+          intro: z.string().optional(),
+          command: z.string().optional(),
+          steps: z.array(z.string()).optional(),
+          note: z.string().optional(),
+        })
+        .optional(),
+      changelog: z
+        .array(
+          z.object({
+            version: z.string(),
+            date: z.coerce.date(),
+            changes: z.array(z.string()),
+          }),
+        )
+        .optional(),
       status: z.string().optional(),
     }),
 })

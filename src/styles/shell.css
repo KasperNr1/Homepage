@@ -30,6 +30,7 @@
   --email-icon-bg: #dbeafe;
   --email-icon-text: #1e40af;
   --accent-shadow: rgba(37, 99, 235, 0.12);
+  --on-accent: #ffffff;
   --max-w: 720px;
   --nav-height: 56px;
 }
@@ -53,6 +54,8 @@ html[data-theme="dark"] {
   --email-icon-bg: #1e3a8a;
   --email-icon-text: #bfdbfe;
   --accent-shadow: rgba(96, 165, 250, 0.18);
+  /* The dark accent is a pale blue, so it carries dark text rather than white. */
+  --on-accent: #0b1220;
 }
 
 /* Never resolved from prefers-color-scheme, only ever chosen by hand. */
@@ -75,6 +78,7 @@ html[data-theme="unicorn"] {
   --email-icon-bg: #ffe3f0;
   --email-icon-text: #94104a;
   --accent-shadow: rgba(194, 24, 91, 0.16);
+  --on-accent: #ffffff;
   --gold: #d9a520;
 }
 

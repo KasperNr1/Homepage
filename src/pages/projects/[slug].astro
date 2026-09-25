@@ -16,12 +16,15 @@ interface Props {
 }
 
 const { project } = Astro.props
-const { title, description, date, techStack, hero, heroAlt, download, status } = project.data
+const { title, description, date, techStack, hero, heroAlt, action, download, install, changelog, status } =
+  project.data
 const { Content } = await render(project)
-const isExternalLink = download?.href.startsWith("http") ?? false
+const isExternalLink = (href: string) => href.startsWith("http")
+const cta = action ?? download
+const releaseDate = date.toLocaleDateString("de-DE", { dateStyle: "long" })
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} mainClass="project-main">
   <section id="hero">
     <h1>{title}</h1>
     <p class="tagline">{description}</p>
@@ -30,35 +33,104 @@ const isExternalLink = download?.href.startsWith("http") ?? false
     </p>
   </section>
 
+  <aside class="download-card" aria-labelledby="download-heading">
+    <h2 id="download-heading">Beziehen</h2>
+    {
+      cta ? (
+        <a
+          class="download-button"
+          href={cta.href}
+          target={isExternalLink(cta.href) ? "_blank" : undefined}
+          rel={isExternalLink(cta.href) ? "noopener" : undefined}
+        >
+          {cta.label}
+        </a>
+      ) : (
+        <p class="download-button is-pending">{status ?? "Noch nicht verfügbar"}</p>
+      )
+    }
+    {action?.note && <p class="download-note">{action.note}</p>}
+
+    <ul class="metadata-list download-meta">
+      <li>Veröffentlicht<br /><strong>{releaseDate}</strong></li>
+      {status && cta && <li>Status<br /><strong>{status}</strong></li>}
+      <li>Technik<br /><strong>{techStack.join(", ")}</strong></li>
+      {
+        download && (
+          <li>
+            Bezugsquelle
+            <br />
+            <a
+              href={download.href}
+              target={isExternalLink(download.href) ? "_blank" : undefined}
+              rel={isExternalLink(download.href) ? "noopener" : undefined}
+            >
+              {download.label}
+            </a>
+          </li>
+        )
+      }
+    </ul>
+  </aside>
+
   <section>
     <h2>Über das Projekt</h2>
     <Image class="project-hero" src={hero} alt={heroAlt ?? title} loading="eager" />
     <div class="about-body">
       <Content />
     </div>
-    {
-      download && (
-        <a
-          class="project-link"
-          href={download.href}
-          target={isExternalLink ? "_blank" : undefined}
-          rel={isExternalLink ? "noopener" : undefined}
-        >
-          {download.label} &rarr;
-        </a>
-      )
-    }
-    {!download && status && <span class="project-link muted">{status}</span>}
   </section>
+
+  {
+    install && (
+      <section id="installation">
+        <h2>Installation</h2>
+        <div class="about-body">
+          {install.intro && <p>{install.intro}</p>}
+          {install.command && (
+            <pre class="install-command"><code>{install.command}</code></pre>
+          )}
+          {install.steps && (
+            <ol class="install-steps">
+              {install.steps.map((step) => (
+                <li>{step}</li>
+              ))}
+            </ol>
+          )}
+          {install.note && <p class="install-note">{install.note}</p>}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    changelog && (
+      <section id="changelog">
+        <h2>Versionshistorie</h2>
+        <ol class="changelog">
+          {changelog.map((release) => (
+            <li class="changelog-entry">
+              <div class="changelog-head">
+                <h3>{release.version}</h3>
+                <time datetime={release.date.toISOString()}>
+                  {release.date.toLocaleDateString("de-DE", { dateStyle: "long" })}
+                </time>
+              </div>
+              <ul class="changelog-changes">
+                {release.changes.map((change) => (
+                  <li>{change}</li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
+  }
 
   <section>
     <h2>Details</h2>
     <div class="about-body">
-      <p>
-        Veröffentlicht am <time datetime={date.toISOString()}>
-          {date.toLocaleDateString("de-DE", { dateStyle: "long" })}
-        </time>
-      </p>
       <p><a href="/projects">&larr; Alle Projekte</a></p>
     </div>
   </section>

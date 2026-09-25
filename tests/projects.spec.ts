@@ -37,3 +37,46 @@ test("the hero links stay out of the tab order", async ({ page }) => {
   )
   expect(unnamed).toEqual([])
 })
+
+test("a project page leads with its download and keeps the reading measure", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto("/projects/blablatex")
+
+  const card = page.locator(".download-card")
+  const hero = page.locator("#hero")
+  await expect(card).toBeVisible()
+
+  // The whole point of the aside: it uses the margin instead of the text column.
+  const cardBox = (await card.boundingBox())!
+  const heroBox = (await hero.boundingBox())!
+  expect(heroBox.width).toBe(720)
+  expect(cardBox.x).toBeGreaterThanOrEqual(heroBox.x + heroBox.width)
+
+  await expect(page.locator("main > section#installation")).toBeVisible()
+  await expect(page.locator("main > section#changelog")).toBeVisible()
+})
+
+test("a command line project sends its button to the installation", async ({ page }) => {
+  await page.goto("/projects/blablatex")
+
+  const button = page.locator(".download-button")
+  await expect(button).toHaveAttribute("href", "#installation")
+  await button.click()
+
+  // Landing under the sticky navigation would hide the heading it jumped to.
+  await expect(page).toHaveURL(/#installation$/)
+  const heading = page.locator("#installation h2")
+  const navBottom = (await page.locator(".site-navigation").boundingBox())!.height
+  await expect
+    .poll(async () => (await heading.boundingBox())!.y >= navBottom)
+    .toBe(true)
+})
+
+test("an unreleased project shows its status instead of a dead button", async ({ page }) => {
+  await page.goto("/projects/gonzales")
+
+  const button = page.locator(".download-button")
+  await expect(button).toHaveClass(/is-pending/)
+  await expect(button).toHaveText("Bald im App-Store verfügbar")
+  expect(await button.evaluate((el) => el.tagName)).toBe("P")
+})

@@ -10,9 +10,10 @@ interface Props {
   title: string
   description?: string
   shell?: ShellName
+  mainClass?: string
 }
 
-const { title, description, shell = "site" } = Astro.props
+const { title, description, shell = "site", mainClass } = Astro.props
 const { titleSuffix, brand, brandHref, navigation, footer, noindex } = shells[shell]
 
 const pageTitle = title === titleSuffix ? title : `${title} | ${titleSuffix}`
@@ -47,7 +48,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url)
   </head>
   <body>
     <SiteNavigation brand={brand} brandHref={brandHref} links={navigation} />
-    <main>
+    <main class={mainClass}>
       <slot />
     </main>
     <SiteFooter links={footer} />

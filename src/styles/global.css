@@ -9,6 +9,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* The sticky navigation would otherwise cover whatever an anchor lands on. */
+  scroll-padding-top: calc(var(--nav-height) + 1rem);
 }
 
 body {
@@ -365,6 +367,174 @@ section > .project-link {
   color: var(--text-soft);
   max-width: 62ch;
   margin-bottom: 1.25rem;
+}
+
+/* ── Project detail ── */
+/* Keeps the reading measure every other page uses and parks the aside in the
+   margin a centred column leaves empty anyway, instead of inside it. */
+.project-main {
+  max-width: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns:
+    minmax(1.5rem, 1fr)
+    minmax(0, var(--max-w))
+    minmax(1.5rem, 1fr);
+}
+
+.project-main > * {
+  grid-column: 2;
+}
+
+/* The aside sits between the hero and the first section, which breaks the
+   adjacency the section borders rely on. */
+.project-main > .download-card + section {
+  border-top: 1px solid var(--border);
+}
+
+.download-card {
+  align-self: start;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.1rem 1.15rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 1180px) {
+  .download-card {
+    grid-column: 3;
+    grid-row: 1 / -1;
+    position: sticky;
+    top: calc(var(--nav-height) + 1.5rem);
+    width: 260px;
+    margin-left: 2rem;
+    margin-bottom: 0;
+  }
+}
+
+.download-card h2 {
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.download-button {
+  display: block;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
+}
+
+.download-button:hover {
+  background: var(--accent-strong);
+  box-shadow: 0 8px 18px var(--accent-shadow);
+  transform: translateY(-1px);
+}
+
+.download-button.is-pending {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--muted);
+  font-weight: 500;
+  cursor: default;
+}
+
+.download-note {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.download-meta {
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.download-meta a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.download-meta a:hover {
+  text-decoration: underline;
+}
+
+.install-command {
+  margin: 1.1rem 0;
+  padding: 0.85rem 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.install-steps {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1.1rem 0 0 1.1rem;
+  color: var(--text-body);
+}
+
+.install-note {
+  margin-top: 1.1rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.changelog {
+  list-style: none;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.changelog-entry {
+  border-left: 2px solid var(--border);
+  padding-left: 1.1rem;
+}
+
+.changelog-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+
+.changelog-head h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.changelog-head time {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.changelog-changes {
+  display: grid;
+  gap: 0.3rem;
+  margin-left: 1.1rem;
+  color: var(--text-body);
+  font-size: 0.92rem;
 }
 
 .contact-main-grid {

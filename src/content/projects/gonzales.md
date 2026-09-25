@@ -5,6 +5,12 @@ date: 2026-07-05
 techStack:
   - macOS-App
 hero: ../../assets/projects/gonzales-hero.webp
+install:
+  intro: Gonzales wird als fertige App ausgeliefert, eine Kommandozeile ist nicht nötig.
+  steps:
+    - App Store öffnen und nach Gonzales suchen.
+    - App laden und starten.
+    - Beim ersten Start die Bedienungshilfen-Berechtigung erteilen, damit Gonzales den Mauszeiger bewegen darf.
 status: Bald im App-Store verfügbar
 ---
 
