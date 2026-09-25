@@ -31,7 +31,7 @@ const projects = defineCollection({
         .array(
           z.object({
             version: z.string(),
-            date: z.coerce.date(),
+            date: z.coerce.date().optional(),
             changes: z.array(z.string()),
           }),
         )

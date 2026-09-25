@@ -388,25 +388,33 @@ section > .project-link {
 
 /* The aside sits between the hero and the first section, which breaks the
    adjacency the section borders rely on. */
-.project-main > .download-card + section {
+.project-main > .download-rail + section {
   border-top: 1px solid var(--border);
 }
 
+.download-rail {
+  margin-bottom: 2rem;
+}
+
 .download-card {
-  align-self: start;
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 1.1rem 1.15rem;
-  margin-bottom: 2rem;
 }
 
 @media (min-width: 1180px) {
-  .download-card {
+  /* A full height rail is what lets the card centre itself against the viewport
+     rather than against whatever section happens to sit next to it. */
+  .download-rail {
     grid-column: 3;
     grid-row: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     position: sticky;
-    top: calc(var(--nav-height) + 1.5rem);
+    top: var(--nav-height);
+    height: calc(100vh - var(--nav-height));
     width: 260px;
     margin-left: 2rem;
     margin-bottom: 0;
