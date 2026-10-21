@@ -19,7 +19,13 @@ export interface Fact {
 
 export const education: TimelineEntry[] = [
   {
-    period: "09/2023 – heute",
+    period: "10/2026 – Heute",
+    title: "M.Sc. Informatik",
+    organisation: "Eberhard Karls Universität · Tübingen",
+    description: "Fokus: Machine Learning, Cyber-Security",
+  },
+  {
+    period: "09/2023 – 09/2026",
     title: "B.Sc. Informatik",
     organisation: "Duale Hochschule Baden-Württemberg · Horb",
     description: "Schwerpunkte: Software Engineering, Künstliche Intelligenz und Algorithmen.",
@@ -109,6 +115,23 @@ export const volunteering: TimelineEntry[] = [
 ]
 
 export const events: TimelineEntry[] = [
+//   \cventry{[10/2026]}{VISION MAKEATHON 2026}{VDMA \& ITQ}{Stuttgart}{}{\small Teilnahme an einer eintägigen Challenge zur industriellen Bildverarbeitung. Im interdisziplinären Team wurde durch ein funktionsfähiger Prototyp zu praxisnahen Themen entwickelt.}
+ 
+// \cventry{[09/2026]}{XR-Fachtage 2026}{STZ Digital Workspace \& DHBW}{Stuttgart}{}{\small Teilnahme am zweitägigen Fachforum für Extended Reality. Vertiefung aktueller Entwicklungen in Bereichen wie Spatial Computing und industriellen Use Cases durch Fachvorträge und Live-Demos.}
+  {
+    period: "10/2026",
+    title: "Vision Makeathon 2026",
+    organisation: "VDMA & ITQ",
+    description: 
+      "Teilnahme an einer eintägigen Challenge zur industriellen Bildverarbeitung. Im interdisziplinären Team wurde durch ein funktionsfähiger Prototyp zu praxisnahen Themen entwickelt."
+  },
+  {
+    period: "09/2026",
+    title: "XR-Fachtage 2026",
+    organisation: "STZ Digital Workspace & DHBW",
+    description: 
+      "Teilnahme am zweitägigen Fachforum für Extended Reality. Vertiefung aktueller Entwicklungen in Bereichen wie Spatial Computing und industriellen Use Cases durch Fachvorträge und Live-Demos."
+  },
   {
     period: "07/2026",
     title: "Copilot Hackathon Days 2026",
@@ -146,6 +169,7 @@ export const skillGroups: SkillGroup[] = [
 
 export const facts: Fact[] = [
   { label: "Name", value: "Matti Magnus Bos" },
+  { label: "Studium (in Progress)", value: "M.Sc. Informatik, Eberhard Karls Universität Tübingen" },
   { label: "Studium", value: "B.Sc. Informatik, DHBW Horb" },
   { label: "Standort", value: "Dornstetten, Deutschland" },
   { label: "Sprachen", value: "Deutsch (C2), Englisch (C1)" },
